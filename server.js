@@ -4,6 +4,7 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
+const useRouter = require('./routes/user.routes')
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -23,5 +24,8 @@ const connection = mongoose.connection;
 connection.once("open", () => {
     console.log("Database Connection Successful");
 })
+
+//Importing the route
+ app.use("/user",useRouter);
 
 module.exports = app
