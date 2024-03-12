@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
 app.use(express.json()) // for parsing application/json
-app.use(cors()) // configure CORS
+app.use(cors({origin:"*"})) // configure CORS
 app.use(bodyParser.json());
 
 // start server
