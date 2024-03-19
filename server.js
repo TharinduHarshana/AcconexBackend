@@ -8,9 +8,10 @@ const useRouter = require('./routes/user.routes')
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
+app.use(bodyParser.json());
 app.use(express.json()) // for parsing application/json
 app.use(cors({origin:"*"})) // configure CORS
-app.use(bodyParser.json());
+
 
 // start server
 app.listen(PORT, () => {

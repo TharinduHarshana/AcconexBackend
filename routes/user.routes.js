@@ -8,16 +8,16 @@ useRouter.post("/login",login);
 useRouter.post("/add",addUser);
 
 //Get all users
-useRouter.get("/",getAllUser);
+useRouter.get("/all",getAllUser);
 
 //Get user by userId
 useRouter.get("/:id",getUserById);
 
 //Update user by userId
-useRouter.put("/update/:id",updateUserById);
+useRouter.patch("/update/:id",updateUserById);
 
 //Delete user by userId
-useRouter.delete("/delete/:id",deleteUserById);
+useRouter.delete("/delete/:_id",deleteUserById);
 
 //Exporting the router
 module.exports=useRouter;
