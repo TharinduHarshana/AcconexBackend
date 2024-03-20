@@ -3,6 +3,7 @@ const {check, validationResult} = require('express-validator'); //validation mod
 
 //add new item
 const addNewItem =async(req,res) =>{
+    //Validation
     check('displayName').notEmpty().withMesseage('Please enter the Display name ');
     check('itemName').notEmpty().withMesseage('Please enter the Item name ');
     check('quantity').notEmpty().withMesseage('Please enter Item quantity ');
@@ -31,4 +32,13 @@ const addNewItem =async(req,res) =>{
         res.status(500).json({success:false,message: err.message});
     }
 
+}
+
+const getAllItems = async(req,res) =>{
+    try{
+        const items = await Inventory.find();
+    }catch(err){
+        console.log(err);
+        res.status(500).json({success:false , message:'Server Error'});
+    }
 }
