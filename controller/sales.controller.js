@@ -62,7 +62,7 @@ const updateCustomerById = async function (req, res) {
         const customerId = req.params.id;
         const updateData = req.body; // Assuming req.body contains fields to be updated
         const updatedCustomer = await Customer.findOneAndUpdate({ cusid: customerId }, updateData, { new: true });
-        res.status(200).json({ success: true, data: updatedCustomer });
+        res.status(200).json({ success: true, message: "Data updated successfully", data: updatedCustomer });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: "Server Error" });
