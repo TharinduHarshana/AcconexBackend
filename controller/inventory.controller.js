@@ -1,44 +1,57 @@
-const Inventory = require('../inventory_models/InventoryModels'); //get module
+
 const {check, validationResult} = require('express-validator'); //validation model import
+const ItemModel = require('../models/inventory.model');
+const mongoose = require("mongoose");
 
 //add new item
-const addNewItem =async(req,res) =>{
-    //Validation
-    check('displayName').notEmpty().withMesseage('Please enter the Display name ');
-    check('itemName').notEmpty().withMesseage('Please enter the Item name ');
-    check('quantity').notEmpty().withMesseage('Please enter Item quantity ');
-    check('costPrice').notEmpty().withMesseage('Please enter Cost price ');
-    check('sellingPrice').notEmpty().withMesseage('Please enter Selling price ');
-    check('category').notEmpty().withMesseage('Please select category ');
+async function addItem(req, res) {
+    try {
+        const {
+            productID,
+            displayName,
+            itemName,
+            quantity,
+            costPrice,
+            sellingPrice,
+            fixedPrice,
+            itemSerial,
+            supplierID,
+            warranty,
+            category
+        } = req.body; // Corrected the destructuring assignment syntax
 
-        //return validation errors
-        (req,res,next) => {
-            const error = validationResult(req);
-            if(!error.isEmpty()){
-                return res.status(400).json({success:false, error: error.array()});
-            }
-            next();
-        }
-    
-    //addidng new item to databse
-    try{
-        const item = new Inventory(req.body);
-        const result = await item.save();
+        const itmRes = await ItemModel.create({
+            productID,
+            displayName,
+            itemName,
+            quantity,
+            costPrice,
+            sellingPrice,
+            fixedPrice,
+            itemSerial,
+            supplierID,
+            warranty,
+            category
+        });
 
-        if(result)
-        res.status(201).json({success:true, message: "New item added successfully"});
-        res.status(400).json({success:true, message:"Faliure in adding new item"});
-    }catch(err){
-        res.status(500).json({success:false,message: err.message});
+        console.log(itmRes);
+        return res.status(201).json({ success: true, data: itmRes }); // Changed status code to 201 for successful creation
+    } catch (error) { // Changed "Error" to "error" for consistency and corrected the catch block syntax
+        console.log(error);
+        res.status(500).json({ success: false, message: "Server Error" }); // Changed status code to 500 for server error
     }
-
 }
 
 const getAllItems = async(req,res) =>{
     try{
         const items = await Inventory.find();
+        if(!items || items.length==0)
+            return res.status(404).json({success:false , message: 'No item found'});
+        return res.status(200).json({success:false, data: items});
     }catch(err){
         console.log(err);
         res.status(500).json({success:false , message:'Server Error'});
     }
 }
+
+module.exports = {addItem,getAllItems}

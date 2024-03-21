@@ -1,6 +1,9 @@
-const router = require('express').Router();
-const {addNewItem} = require('../controller/inventory.controller');
+const itemRouter = require('express').Router();
+const {addItem} = require('../controller/inventory.controller');
+//const { router } = require('../server');
 
-router.post('/add',addNewItem);
+//add
+itemRouter.post('/add',addItem);
+//router.length()
 
-module.exports = router;
+module.exports = itemRouter;
