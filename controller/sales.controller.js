@@ -7,6 +7,12 @@ async function addCustomer(req, res) {
         // Extracting data from request body
         const { cusid, name, address, mobile } = req.body;
 
+          // Check if cusid already exists
+          const existingCustomer = await Customer.findOne({ cusid });
+          if (existingCustomer) {
+              return res.status(400).json({ success: false, message: "Customer with this ID already exists" });
+          }
+          
         // Creating a new customer instance
         const newCustomer = new Customer({
             cusid,
@@ -14,6 +20,8 @@ async function addCustomer(req, res) {
             address,
             mobile,
         });
+
+        
 
         // Saving the new customer to the database
         const savedCustomer = await newCustomer.save();
