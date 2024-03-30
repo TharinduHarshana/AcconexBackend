@@ -5,6 +5,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 const useRouter = require('./routes/user.routes')
+const itemRouter = require('./routes/web.inventory.routes')
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -26,6 +27,7 @@ connection.once("open", () => {
 })
 
 //Importing the route
- app.use("/user",useRouter);
+app.use("/user",useRouter);
+app.use("/item",itemRouter);
 
 module.exports = app
