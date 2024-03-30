@@ -4,18 +4,15 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
-
-//import routes
-const useRouter = require('./routes/user.routes');
-const salesRouter = require('./routes/sales.routes');
-
-
+const useRouter = require('./routes/user.routes')
+const supplierRouter = require('./routes/supplier.routes')
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
+app.use(bodyParser.json());
 app.use(express.json()) // for parsing application/json
 app.use(cors({origin:"*"})) // configure CORS
-app.use(bodyParser.json());
+
 
 // start server
 app.listen(PORT, () => {
@@ -32,7 +29,6 @@ connection.once("open", () => {
 
 //Importing the route
  app.use("/user",useRouter);
- app.use("/sales", salesRouter);
- 
+ app.use("/supplier",supplierRouter)
 
 module.exports = app;
