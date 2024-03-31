@@ -29,8 +29,7 @@ connection.once("open", () => {
 })
 
 //Importing the route
- app.use("/user",useRouter);
- app.use("/supplier",supplierRouter)
+app.use("/supplier",supplierRouter)
 app.use("/user",useRouter);
 app.use("/item",itemRouter);
 
