@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 //import routes
 const useRouter = require('./routes/user.routes');
-const salesRouter = require('./routes/sales.routes');
+const customerRouter = require('./routes/cutomer.routes');
 
 
 const PORT = process.env.PORT || 8000
@@ -32,7 +32,7 @@ connection.once("open", () => {
 
 //Importing the route
  app.use("/user",useRouter);
- app.use("/sales", salesRouter);
+ app.use("/customer", customerRouter);
  
 
 module.exports = app;
