@@ -12,7 +12,7 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use(express.json()) // for parsing application/json
 app.use(cors({origin:"*"})) // configure CORS
 app.use(bodyParser.json());
-app.use("inventory",useRouter);
+
 
 // start server
 app.listen(PORT, () => {
@@ -29,7 +29,8 @@ connection.once("open", () => {
 
 //Importing the route
  app.use("/user",useRouter);
- app.use("/items",itemRouter);
+ app.use('/inventory', require('./routes/inventory.routes')) // inventory routes
+
 
 
 module.exports = app

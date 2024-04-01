@@ -1,21 +1,22 @@
+const mongoose  = require('mongoose');
+const Schema = mongoose.Schema;
 
-const {model,Schema}=require("mongoose")
-
-const ItemSchema = new Schema({
-    productID : {type : String, required : true},
-    displayName: {type : String, required : true},
-    itemName: {type : String, required : true},
-    quantity: {type : Number, required : true},
-    costPrice: {type : Number, required : true},
-    sellingPrice: {type : Number, required : true},
-    fixedPrice: {type : Number,},
-    itemSerial: {type : String,},
-    supplierID: {type : Number,},
-    warranty: {type : String,},
-    category: {type : Number,required:true},
+// Defining the inventory schema
+const inventorySchema = new Schema({
+    productID : {type: String, required: true},
+    displayName: {type: String, require:true},
+    itemName: {type: String, require:true},
+    quantity: {type: Number, required:true},
+    costPrice: {type: Number, required:true},
+    sellingPrice: {type: Number, required: true},
+    fixedPrice: {type: Number,},
+    itemSerial: {type: String},
+    supplierID: {type:Number},
+    warranty:{type:String},
+    category: {type:String, require:true},
 },{
     timestamps: true,
 });
 
-const ItemModel = model("Item",ItemSchema);
-module.exports = ItemModel;
+// Exporting inventory
+module.exports = mongoose.model('Inventory',inventorySchema);

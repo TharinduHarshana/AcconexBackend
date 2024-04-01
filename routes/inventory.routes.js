@@ -1,9 +1,20 @@
-const itemRouter = require('express').Router();
-const {addItem} = require('../controller/inventory.controller');
-//const { router } = require('../server');
+const router = require('express').Router();
+const {addNewItem ,getAllItems , getItemByID , updateItemByID , deleteItemById} = require('../controller/inventory.controller');
 
-//add
-itemRouter.post('/add',addItem);
-//router.length()
+// Add a new Item
+router.post('/add', addNewItem);
 
-module.exports = itemRouter;
+// get all items
+router.get('/',getAllItems);
+
+//get item using ID
+router.get('/:id', getItemByID);
+
+//Update item Using ID
+router.patch('/update/:id',updateItemByID);
+
+//Delete item using ID
+router.delete('/delete/:id',deleteItemById)
+
+
+module.exports = router;
