@@ -106,8 +106,8 @@ const getUserById = async function getUserId(req, res) {
   }
 };
 
-//Update user by userId
 
+//Update user by userId
 const updateUserById = async function updateUser(req, res) {
   try {
     const _id = req.params.id; // Extracting user ID from the URL path
