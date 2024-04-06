@@ -87,7 +87,6 @@ async function addUser(req, res) {
 //Get all users
 const getAllUser = async function getUser(req, res) {
   try {
-    console.log(req.user);
     const users = await UserModel.find();
     res.status(200).json({ success: true, data: users });
   } catch (err) {
@@ -96,6 +95,7 @@ const getAllUser = async function getUser(req, res) {
   }
 };
 
+//Get a single user by userId
 const getUserById = async function getUserId(req, res) {
   try {
     const user = await UserModel.findById({ _id: req.params.id });
@@ -105,6 +105,8 @@ const getUserById = async function getUserId(req, res) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+//Update user by userId
 
 const updateUserById = async function updateUser(req, res) {
   try {
