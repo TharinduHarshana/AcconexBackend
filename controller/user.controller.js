@@ -106,7 +106,6 @@ const getUserById = async function getUserId(req, res) {
   }
 };
 
-
 //Update user by userId
 const updateUserById = async function updateUser(req, res) {
   try {
@@ -138,7 +137,7 @@ const updateUserById = async function updateUser(req, res) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-
+//Delete user by id
 const deleteUserById = async (req, res) => {
   try {
     const deleteUserById = await UserModel.findByIdAndDelete(req.params._id);
@@ -167,5 +166,6 @@ module.exports = {
   getUserById,
   updateUserById,
   deleteUserById,
+
   login,
 };
