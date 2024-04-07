@@ -68,5 +68,26 @@ const getSupplierById=async function getSupplierId(req,res){
       res.status(500).json({ success: false, message: "Server Error" });
     }
   };
+  const deleteSupplierById = async (req, res) => {
+    try {
+      const deleteSupplierById = await SupplierModel.findByIdAndDelete(req.params._id);
   
-module.exports={addSupplier,getSuppliers,getSupplierById,updateSupplierById};
+      if (!deleteSupplierById)
+        return res
+          .status(404)
+          .json({ success: false, message: "Supplier not found" });
+  
+      res
+        .status(200)
+        .json({ success: true, message: "Supplier Deleted Successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete item",
+        error: err.message,
+      });
+    }
+  };
+  
+module.exports={addSupplier,getSuppliers,getSupplierById,updateSupplierById,deleteSupplierById};

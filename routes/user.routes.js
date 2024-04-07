@@ -5,7 +5,7 @@ const {
   getAllUser,
   getUserById,
   deleteUserById,
-  updateUserById
+  updateUserById,
 } = require("../controller/user.controller");
 
 // create login

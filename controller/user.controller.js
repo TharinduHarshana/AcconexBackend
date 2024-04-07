@@ -19,7 +19,6 @@ async function login(req, res) {
   }
 }
 
-
 async function addUser(req, res) {
   try {
     const {
@@ -38,7 +37,20 @@ async function addUser(req, res) {
     } = req.body;
 
     // Check if any required field is missing
-    if (!userId || !userName || !firstName || !lastName || !password || !gmail || !dob || !phoneNumber || !address || !idNumber || !gender || !role) {
+    if (
+      !userId ||
+      !userName ||
+      !firstName ||
+      !lastName ||
+      !password ||
+      !gmail ||
+      !dob ||
+      !phoneNumber ||
+      !address ||
+      !idNumber ||
+      !gender ||
+      !role
+    ) {
       return res.status(400).json({ msg: "All fields are required" });
     }
 
@@ -63,7 +75,7 @@ async function addUser(req, res) {
       gender,
       role,
     });
-    
+
     console.log("New user added:", newUser);
     res.status(200).json({ success: true, data: newUser });
   } catch (error) {
@@ -72,11 +84,9 @@ async function addUser(req, res) {
   }
 }
 
-
 //Get all users
 const getAllUser = async function getUser(req, res) {
   try {
-    console.log(req.user);
     const users = await UserModel.find();
     res.status(200).json({ success: true, data: users });
   } catch (err) {
@@ -84,54 +94,19 @@ const getAllUser = async function getUser(req, res) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-//Get a single user by userId
 
-// const getUserById = async function getUserId(req, res) {
-//   try {
-//     const userId = req.params.id;
-//     const user = await UserModel.findOne({userId:userId})
-//     if (!user) {
-//       return res.status(404).json({ success: false, message: "User not found" });
-//     }
-//     res.status(200).json({ success: true, data: user });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ success: false, message: "Server Error" });
-//   }
-// };
 //Get a single user by userId
-const getUserById=async function getUserId(req,res){
+const getUserById = async function getUserId(req, res) {
   try {
-      const user=await UserModel.findById({_id:req.params.id});
-      res.status(200).json({success:true, data:user})
+    const user = await UserModel.findById({ _id: req.params.id });
+    res.status(200).json({ success: true, data: user });
   } catch (err) {
-      console.log(err);
-      res.status(500).json({success:false,message:"Server Error"})
+    console.log(err);
+    res.status(500).json({ success: false, message: "Server Error" });
   }
-
-}
-
-
-
-// const getUserById = async (req, res) => {
-//   try {
-//     const id = req.params.id; // Assuming 'id' is extracted from request parameters
-//     const userExist = await UserModel.findById(id); // Assuming 'User' model is defined elsewhere
-
-//     if (!userExist) {
-//       return res.status(404).json({ msg: "User is not found" });
-//     }
-
-//     res.status(200).json(userExist);
-//   } catch (error) {
-//     // It's generally a good practice to handle errors, at least logging them
-//     console.error(error);
-//     res.status(500).json({ msg: "Internal Server Error" });
-//   }
-// };
+};
 
 //Update user by userId
-
 const updateUserById = async function updateUser(req, res) {
   try {
     const _id = req.params.id; // Extracting user ID from the URL path
@@ -162,38 +137,7 @@ const updateUserById = async function updateUser(req, res) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-
-
-
-// const updateUserByUserId = async function updateUser(req, res) {
-//   try {
-//     const userId = req.params.id; // Extracting user ID from the URL path
-//     const { firstName, phoneNumber, role } = req.body;
-//     const updateData = { firstName, phoneNumber, role };
-
-//     // Find the user by userId and update it
-//     const updatedUser = await UserModel.findOneAndUpdate({ userId }, updateData, {
-//       new: true,
-//     });
-
-//     if (!updatedUser) {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "User not found" });
-//     }
-
-//     res.status(200).json({ success: true, data: updatedUser });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ success: false, message: "Server Error" });
-//   }
-// };
-
-
-
-
-
-
+//Delete user by id
 const deleteUserById = async (req, res) => {
   try {
     const deleteUserById = await UserModel.findByIdAndDelete(req.params._id);
@@ -208,16 +152,13 @@ const deleteUserById = async (req, res) => {
       .json({ success: true, message: "User Deleted Successfully" });
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to delete item",
-        error: err.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete item",
+      error: err.message,
+    });
   }
 };
-
 
 module.exports = {
   addUser,
@@ -225,6 +166,6 @@ module.exports = {
   getUserById,
   updateUserById,
   deleteUserById,
+
   login,
 };
-
