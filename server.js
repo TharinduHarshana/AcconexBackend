@@ -16,6 +16,7 @@ app.use(express.json()) // for parsing application/json
 app.use(cors({origin:"*"})) // configure CORS
 
 
+
 // start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
