@@ -11,7 +11,7 @@ const customerRouter = require('./routes/cutomer.routes');
 //const suspendRouter= require('./routes/suspend_sale.routes');
 
 
-const useRouter = require('./routes/user.routes')
+//const useRouter = require('./routes/user.routes')
 const supplierRouter = require('./routes/supplier.routes')
 const itemRouter = require('./routes/web.inventory.routes')
 const PORT = process.env.PORT || 8000
