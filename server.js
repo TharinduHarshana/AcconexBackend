@@ -4,7 +4,14 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
-const useRouter = require('./routes/user.routes')
+
+//import routes
+const useRouter = require('./routes/user.routes');
+const customerRouter = require('./routes/cutomer.routes');
+//const suspendRouter= require('./routes/suspend_sale.routes');
+
+
+//const useRouter = require('./routes/user.routes')
 const supplierRouter = require('./routes/supplier.routes')
 const webitemRouter = require('./routes/web.inventory.routes')
 const itemrouter = require('./routes/inventory.routes')
@@ -31,9 +38,16 @@ connection.once("open", () => {
 })
 
 //Importing the route
+
+ app.use("/user",useRouter);
+ app.use("/customer", customerRouter);
+// app.use("/suspend_sale",suspendRouter);
+ 
+
 app.use("/supplier",supplierRouter)
 app.use("/user",useRouter);
 app.use("/webitem",webitemRouter);
 app.use("/item",itemrouter);
+
 
 module.exports = app;
