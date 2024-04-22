@@ -13,13 +13,15 @@ const customerRouter = require('./routes/cutomer.routes');
 
 //const useRouter = require('./routes/user.routes')
 const supplierRouter = require('./routes/supplier.routes')
-const itemRouter = require('./routes/web.inventory.routes')
+const webitemRouter = require('./routes/web.inventory.routes')
+const itemrouter = require('./routes/inventory.routes')
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
 app.use(bodyParser.json());
 app.use(express.json()) // for parsing application/json
 app.use(cors({origin:"*"})) // configure CORS
+
 
 
 // start server
@@ -36,9 +38,16 @@ connection.once("open", () => {
 })
 
 //Importing the route
+
  app.use("/user",useRouter);
  app.use("/customer", customerRouter);
 // app.use("/suspend_sale",suspendRouter);
  
+
+app.use("/supplier",supplierRouter)
+app.use("/user",useRouter);
+app.use("/webitem",webitemRouter);
+app.use("/item",itemrouter);
+
 
 module.exports = app;
