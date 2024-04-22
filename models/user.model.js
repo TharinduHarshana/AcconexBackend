@@ -44,17 +44,7 @@ UserSchema.statics.findByCredentials=async(userName,password)=>{
 return user;
 
 }
-//generate token through user
-// UserSchema.methods.generateAuthToken=async function(){
-//   const user=this;
-//   const token= jwt.sign({_id:user._id.toString()},"mysecret")
-//   user.tokens=user.tokens.concat({token})
 
-//   //sent the user database
-//   await user.save()
-//   return token;
-
-// }
 
 //Exporting the User model
 const UserModel = model("User", UserSchema);

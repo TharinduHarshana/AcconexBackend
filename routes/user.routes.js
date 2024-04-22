@@ -6,6 +6,7 @@ const {
   getUserById,
   deleteUserById,
   updateUserById,
+  checkUserId,
 } = require("../controller/user.controller");
 
 // create login
@@ -19,6 +20,8 @@ useRouter.get("/all", getAllUser);
 
 // Get user by userId
 useRouter.get("/:id", getUserById); // Changed the parameter name to ':id'
+
+useRouter.get("/check/:userId",checkUserId)
 
 // Update user by userId
 useRouter.patch("/update/:id", updateUserById); // Changed the parameter name to ':id'

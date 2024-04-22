@@ -4,6 +4,7 @@ const {
   getSupplierById,
   updateSupplierById,
   deleteSupplierById,
+  checkSupplierId,
 } = require("../controller/supplier.controller");
 
 const supplierRouter = require("express").Router();
@@ -16,6 +17,10 @@ supplierRouter.get("/get", getSuppliers);
 
 // Get supplier by supplierId
 supplierRouter.get("/:id", getSupplierById); // Changed the parameter name to ':id'
+
+//
+supplierRouter.get("/check/:supplierId", checkSupplierId);
+
 
 // Update supplier by supplierId
 supplierRouter.patch("/update/:id", updateSupplierById); // Changed the parameter name to ':id'

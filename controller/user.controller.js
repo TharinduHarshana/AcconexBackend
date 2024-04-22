@@ -10,8 +10,6 @@ async function login(req, res) {
       req.body.userName,
       req.body.password
     );
-    // const token=await user.generateAuthToken()
-    //res.json({ success: true, data:user });
     res.send({ user });
   } catch (error) {
     console.log(error);
@@ -105,6 +103,20 @@ const getUserById = async function getUserId(req, res) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+//Check userId
+async function checkUserId(req,res){
+  try {
+    const userExist = await UserModel.findOne({ userId: req.params.userId });
+    if (userExist) {
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
+    }
+ } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+ }
+}
 
 //Update user by userId
 const updateUserById = async function updateUser(req, res) {
@@ -166,6 +178,6 @@ module.exports = {
   getUserById,
   updateUserById,
   deleteUserById,
-
   login,
+  checkUserId
 };
