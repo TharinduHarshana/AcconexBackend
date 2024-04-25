@@ -122,5 +122,23 @@ const deleteItemById = async (req, res) => {
     }
 }
 
+
+async function getItemSellingPrice(req, res) {
+    try {
+        const { productID } = req.params;
+        const inventoryItem = await Inventory.findOne({ productID });
+        if (!inventoryItem) {
+            return res.status(404).json({ msg: "Item not found" });
+        }
+        res.status(200).json({ sellingPrice: inventoryItem.sellingPrice });
+    } catch (error) {
+        console.error("Error fetching item selling price:", error);
+        res.status(500).json({ msg: "Server error" });
+    }
+}
+
+
+
+
 // Exporting APIs
-module.exports = {addNewItem , getAllItems , getItemByID , updateItemByID , deleteItemById};
+module.exports = {addNewItem , getAllItems , getItemByID , updateItemByID , deleteItemById,getItemSellingPrice};
