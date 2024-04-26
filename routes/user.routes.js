@@ -1,6 +1,9 @@
 const useRouter = require("express").Router();
+const authMiddleware = require("../Middlewares/auth.middleware");
+const roleCheck = require("../Middlewares/role.check.middleware");
+const { login, logout } = require("../controller/auth.controller");
 const {
-  login,
+  
   addUser,
   getAllUser,
   getUserById,
@@ -10,13 +13,21 @@ const {
 } = require("../controller/user.controller");
 
 // create login
-useRouter.post("/login", login);
+//useRouter.post("/login", login);
 
-// Add a user
-useRouter.post("/add", addUser);
+useRouter.post("/login",login);
+useRouter.get("/logout",logout);
 
-// Get all users
-useRouter.get("/all", getAllUser);
+//Add a user
+//useRouter.post("/add", addUser);
+
+//role and token
+useRouter.post("/add",authMiddleware,roleCheck(['admin']),addUser);
+
+// Get all users/
+//useRouter.get("/all",getAllUser);
+
+useRouter.get("/all",authMiddleware,roleCheck(['admin']),getAllUser);//
 
 // Get user by userId
 useRouter.get("/:id", getUserById); // Changed the parameter name to ':id'

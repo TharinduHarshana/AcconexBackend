@@ -4,19 +4,18 @@ const mongoose = require("mongoose");
 
 // Create the login
 
-async function login(req, res) {
-  try {
-    const user = await UserModel.findByCredentials(
-      req.body.userName,
-      req.body.password
-    );
-    res.send({ user });
-  } catch (error) {
-    console.log(error);
-    res.status(401).json({ success: false, message: "Unauthorized" });
-  }
-}
-
+// async function login(req, res) {
+//   try {
+//     const user = await UserModel.findByCredentials(
+//       req.body.userName,
+//       req.body.password
+//     );
+//     res.send({ user });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(401).json({ success: false, message: "Unauthorized" });
+//   }
+// }
 async function addUser(req, res) {
   try {
     const {
@@ -178,6 +177,6 @@ module.exports = {
   getUserById,
   updateUserById,
   deleteUserById,
-  login,
+  
   checkUserId
 };
