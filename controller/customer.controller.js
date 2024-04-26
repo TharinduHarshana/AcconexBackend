@@ -1,7 +1,7 @@
-const Customer = require('../models/sales.model');
+const Customer = require('../models/customer.model');
 
 // Controller function to add a new customer
-// http://localhost:8000/sales/add
+// http://localhost:8000/customer/add
 async function addCustomer(req, res) {
     try {
         // Extracting data from request body
@@ -36,7 +36,7 @@ async function addCustomer(req, res) {
 }
 
 // Get all customers
-// http://localhost:8000/sales/
+// http://localhost:8000/customer/
 const getAllCustomers = async function (req, res) {
     try {
         const customers = await Customer.find();
@@ -48,7 +48,7 @@ const getAllCustomers = async function (req, res) {
 }
 
 // Get a single customer by customer id
-// http://localhost:8000/sales/get/:id
+// http://localhost:8000/customer/get/:id
 const getCustomerById = async function (req, res) {
     try {
         const customerId = req.params.id;
@@ -63,8 +63,25 @@ const getCustomerById = async function (req, res) {
     }
 }
 
+
+// Get a single customer by customer name
+// http://localhost:8000/customer/getbyName/:name
+const getCustomerByName = async function (req, res) {
+    try {
+        const customerName = req.params.name;
+        const customer = await Customer.findOne({ name: customerName });
+        if (!customer) {
+            return res.status(404).json({ success: false, message: "Customer not found" });
+        }
+        res.status(200).json({ success: true, data: customer });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+}
+
 // Update customer by customer id
-// http://localhost:8000/sales/update/:id
+// http://localhost:8000/customer/update/:id
 const updateCustomerById = async function (req, res) {
     try {
         const customerId = req.params.id;
@@ -78,7 +95,7 @@ const updateCustomerById = async function (req, res) {
 }
 
 // Delete customer by customer id
-// http://localhost:8000/sales/delete/:id
+// http://localhost:8000/customer/delete/:id
 const deleteCustomerById = async function (req, res) {
     try {
         const customerId = req.params.id;
@@ -91,4 +108,4 @@ const deleteCustomerById = async function (req, res) {
 }
 
 // Exporting the controller functions
-module.exports = { addCustomer, getAllCustomers, getCustomerById, updateCustomerById, deleteCustomerById };
+module.exports = { addCustomer, getAllCustomers, getCustomerById, updateCustomerById, deleteCustomerById ,getCustomerByName};
