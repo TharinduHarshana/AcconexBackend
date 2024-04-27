@@ -16,6 +16,8 @@ const mongoose = require("mongoose");
 //     res.status(401).json({ success: false, message: "Unauthorized" });
 //   }
 // }
+
+//create a new user
 async function addUser(req, res) {
   try {
     const {

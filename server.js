@@ -12,17 +12,21 @@ const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT || 8000;
 const MONGO_URI = process.env.MONGO_URI;
 
+// Middleware to parse JSON bodies
 app.use(bodyParser.json());
-app.use(express.json()); // for parsing application/json
-
-//app.use(cors({origin:"*"})) // configure CORS
+app.use(express.json());
 app.use(cookieParser());
+//app.use(cors({origin:"*"})) // configure CORS
+
+// CORS configuration
 const corsOptions = {
+  // Allow requests from this origin
   origin: "http://localhost:3000",
   // This allows the server to receive and send cookies
   credentials: true,
 };
 
+// Enable CORS with options
 app.use(cors(corsOptions));
 
 // Error Handling Middleware
@@ -50,4 +54,5 @@ app.use("/user", useRouter);
 app.use("/item", itemRouter);
 app.use("/itemkit", itemKitRouter);
 
+// Export the Express application
 module.exports = app;

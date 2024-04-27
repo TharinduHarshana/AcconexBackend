@@ -2,6 +2,7 @@
 const ItemKitModel = require("../models/item.kit.model");
 const mongoose = require("mongoose");
 
+// Function to create a new item kit
 async function createItemKit(req, res) {
   try {
     // Extract required fields from the request body
@@ -35,7 +36,8 @@ async function createItemKit(req, res) {
     res.status(500).json({ msg: "Server error" });
   }
 }
-//check the item kit
+
+// Function to check if an item kit ID exists
 async function checkItemKitId(req,res){
   try {
     const itemKit = await ItemKitModel.findOne({ itemKitId: req.params.itemKitId });
@@ -50,7 +52,7 @@ async function checkItemKitId(req,res){
  }
 }
 
-//Get all item kit
+// Function to get all item kits
 const getAllKit= async function getAllKits(req, res) {
   try {
     const kit = await ItemKitModel.find();
@@ -60,7 +62,8 @@ const getAllKit= async function getAllKits(req, res) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-//update item kit
+
+// Function to update an item kit by ID
 const updateKitById = async function updateItemKit(req, res) {
   console.log("updateKitById called with ID:", req.params.id)
   try {
@@ -95,8 +98,7 @@ const updateKitById = async function updateItemKit(req, res) {
   }
 };
 
-//delete item kit
-
+// Function to delete an item kit by ID
 const deleteKitById = async (req, res) => {
   try {
     const deleteKitById = await ItemKitModel.findByIdAndDelete(req.params._id);
@@ -120,7 +122,7 @@ const deleteKitById = async (req, res) => {
 };
 
 
-//Get a single itemKit 
+// Function to get a single item kit by ID
 const getItemKitById = async function getItemKitById(req, res) {
   try {
     const kit = await ItemKitModel.findById({ _id: req.params.id });
@@ -130,12 +132,6 @@ const getItemKitById = async function getItemKitById(req, res) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-
-
-
-
-
-
  
-
+// Exporting all functions
 module.exports = { createItemKit,checkItemKitId,getAllKit,deleteKitById,getItemKitById,updateKitById};
