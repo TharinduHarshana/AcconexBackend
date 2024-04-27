@@ -16,14 +16,14 @@ app.use(bodyParser.json());
 app.use(express.json()) // for parsing application/json
 
 //app.use(cors({origin:"*"})) // configure CORS
-
+app.use(cookieParser());
 const corsOptions = {
   origin: 'http://localhost:3000', // Update this to match your frontend's origin
   credentials: true, // This allows the server to receive and send cookies
  };
  
 app.use(cors(corsOptions));
-app.use(cookieParser())
+
 
 
 // Error Handling Middleware
