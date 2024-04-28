@@ -16,7 +16,6 @@ const UserSchema = new Schema({
   address: { type: String, required: true },
   idNumber: { type: String, required: true },
   gender: { type: String, required: true },
-  //role: { type: String },
   role: { type: String, enum: ['admin', 'user', 'inventory manager', 'sales staff', 'cashier'], default: 'user' },
   
 });
