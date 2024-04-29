@@ -2,6 +2,7 @@ const { model, Schema } = require("mongoose"); // Import the model and Schema ob
 const bcrypt = require("bcrypt"); // Import the bcrypt library for password hashing
 const jwt = require("jsonwebtoken");
 
+
 // Define a new Schema for the User model
 const UserSchema = new Schema({
   userId: { type: String, unique: true },
@@ -29,6 +30,7 @@ UserSchema.pre("save", async function (next) {
     // If so, hash the password using bcrypt with a salt round of 10
     this.password = await bcrypt.hash(this.password, 10);
   }
+  
   // Proceed to the next middleware
   next();
 });
