@@ -7,6 +7,9 @@ const bodyParser = require('body-parser');
 const useRouter = require('./routes/user.routes');
 const itemRouter = require('./routes/web.inventory.routes');
 const webCustomerRouter = require('./routes/web.customer.routes');
+const webitemRouter = require('./routes/web.inventory.routes');
+const customerRouter = require('./routes/cutomer.routes');
+const supplierRouter = require('./routes/supplier.routes');
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -38,7 +41,7 @@ connection.once("open", () => {
 app.use("/user",useRouter);
 app.use("/item",itemRouter);
 app.use("/webcustomer",webCustomerRouter);
- app.use("/customer", customerRouter);
+app.use("/customer", customerRouter);
 // app.use("/suspend_sale",suspendRouter);
 app.use("/supplier",supplierRouter)
 app.use("/webitem",webitemRouter);
