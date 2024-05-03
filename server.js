@@ -4,13 +4,20 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
-const useRouter = require('./routes/user.routes')
-const itemRouter = require('./routes/web.inventory.routes')
+const useRouter = require('./routes/user.routes');
+const itemRouter = require('./routes/web.inventory.routes');
+const webCustomerRouter = require('./routes/web.customer.routes');
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
 app.use(express.json()) // for parsing application/json
-app.use(cors({origin:"*"})) // configure CORS
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST"],
+  credentials: true,
+
+
+})) // configure CORS
 app.use(bodyParser.json());
 
 // start server
@@ -29,5 +36,7 @@ connection.once("open", () => {
 //Importing the route
 app.use("/user",useRouter);
 app.use("/item",itemRouter);
+app.use("/webcustomer",webCustomerRouter);
+
 
 module.exports = app
