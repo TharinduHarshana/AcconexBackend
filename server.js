@@ -10,6 +10,7 @@ const webCustomerRouter = require('./routes/web.customer.routes');
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
+app.use(bodyParser.json());
 app.use(express.json()) // for parsing application/json
 app.use(cors({
   origin: "http://localhost:3000",
@@ -37,6 +38,10 @@ connection.once("open", () => {
 app.use("/user",useRouter);
 app.use("/item",itemRouter);
 app.use("/webcustomer",webCustomerRouter);
+ app.use("/customer", customerRouter);
+// app.use("/suspend_sale",suspendRouter);
+app.use("/supplier",supplierRouter)
+app.use("/webitem",webitemRouter);
 
 
-module.exports = app
+module.exports = app;
