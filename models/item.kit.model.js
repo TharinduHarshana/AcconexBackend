@@ -1,46 +1,50 @@
-// // Importing mongoose for MongoDB schema creation
-// const mongoose = require("mongoose");
-// const { Schema } = mongoose; 
-
-// // Defining the schema for the Item Kit
-// const itemKitSchema = new Schema({
-//     itemKitId: { type: String, required: true ,unique:true},
-//     itemKitName: { type: String, required: true },
-//     itemDescription: { type: String },
-//     price: { type: Number},
-//     quantity: { type: Number },
-//     items: [{ type: String, ref: 'Inventory', required: true }]// Array of items included in the item kit, referencing Inventory model
-    
-    
-// });
-// // Creating a model based on the schema
-// const ItemKitModel = mongoose.model("Item Kit", itemKitSchema); 
-// // Exporting the Item Kit model
-// module.exports = ItemKitModel;
-
 // Importing mongoose for MongoDB schema creation
-const mongoose = require("mongoose");
-const { Schema } = mongoose; 
 
-// Defining the schema for the Item Kit
-const itemKitSchema = new Schema({
-    itemKitId: { type: String, required: true ,unique:true},
-    itemKitName: { type: String, required: true },
-    itemDescription: { type: String },
-    price: { type: Number},
-    kitQuantity: { type: Number },
-    items: [{ type: String, ref: "Inventory", required: true}],
-    itemQuantity: [
+const mongoose = require("mongoose");
+
+// Defining the inventory schema
+const itemKitSchema = new mongoose.Schema({
+  itemKitId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  itemKitName: {
+    type: String,
+    required: true,
+  },
+  itemDescription: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  kitQuantity: {
+    type: Number,
+    required: true,
+  },
+  items: [
     {
-      itemId: { type: String, ref: "Inventory", required: true},
-      quantity: { type: Number, required: true },
+      productID: {
+        type: String,
+        required: true,
+        ref: "Inventory",
+      },
+      itemQuantity: {
+        type: Number,
+        required: true,
+      },
     },
   ],
-    
-    
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
-// Creating a model based on the schema
-const ItemKitModel = mongoose.model("Item Kit", itemKitSchema); 
-// Exporting the Item Kit model
-module.exports = ItemKitModel;
 
+// Directly use mongoose.model() to avoid circular dependencies
+const ItemKitModel = mongoose.model("ItemKit", itemKitSchema);
+
+module.exports = ItemKitModel;

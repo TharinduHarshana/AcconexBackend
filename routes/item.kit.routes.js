@@ -1,13 +1,13 @@
-const { createItemKit, getAllItemKits, deleteKitById} = require("../controller/itemkit.controller");
+const { createItemKit, getAllKit, deleteKitById, checkItemKitId} = require("../controller/itemkit.controller");
 // Importing Express Router
 const itemKitRouter = require("express").Router();
 
 // // Route to create a new item kit
 itemKitRouter.post("/create",createItemKit);
-// // Route to check if an item kit ID exists
-// itemKitRouter.get("/check/:itemKitId",checkItemKitId);
+// Route to check if an item kit ID exists
+itemKitRouter.get("/check/:itemKitId",checkItemKitId);
 // // Route to get all item kits
-itemKitRouter.get("/all",getAllItemKits);
+itemKitRouter.get("/all",getAllKit);
 // // Route to delete an item kit by ID
 itemKitRouter.delete("/delete/:_id", deleteKitById);
 // // Route to get an item kit by ID
