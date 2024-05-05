@@ -1,13 +1,16 @@
-const { createItemKit, getAllKit, deleteKitById, checkItemKitId} = require("../controller/itemkit.controller");
+
 // Importing Express Router
 const itemKitRouter = require("express").Router();
+const { createItemKit, getAllKit, deleteKitById, checkItemKitId} = require("../controller/itemkit.controller");
+const authMiddleware = require("../Middlewares/auth.middleware");
+const roleCheck = require("../Middlewares/role.check.middleware");
 
 // // Route to create a new item kit
 itemKitRouter.post("/create",createItemKit);
 // Route to check if an item kit ID exists
 itemKitRouter.get("/check/:itemKitId",checkItemKitId);
 // // Route to get all item kits
-itemKitRouter.get("/all",getAllKit);
+itemKitRouter.get("/all",authMiddleware,roleCheck(["admin","inventory manager"]),getAllKit);
 // // Route to delete an item kit by ID
 itemKitRouter.delete("/delete/:_id", deleteKitById);
 // // Route to get an item kit by ID

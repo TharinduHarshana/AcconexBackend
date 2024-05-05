@@ -33,7 +33,7 @@ const login = async (req, res) => {
       // Secret key for signing the token
       process.env.TOKEN_KEY,
       // Token expiration time
-      { expiresIn: "1h" }
+      { expiresIn: "86400s" }
     );
 
     res.cookie("token", token, {
