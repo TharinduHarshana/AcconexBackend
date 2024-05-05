@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 //import routes
 const useRouter = require('./routes/user.routes');
 const customerRouter = require('./routes/cutomer.routes');
-//const suspendRouter= require('./routes/suspend_sale.routes');
+const salesRouter = require('./routes/daily_sales.routes');
 
 
 //const useRouter = require('./routes/user.routes')
@@ -41,7 +41,7 @@ connection.once("open", () => {
 
  app.use("/user",useRouter);
  app.use("/customer", customerRouter);
-// app.use("/suspend_sale",suspendRouter);
+ app.use("/dailysales", salesRouter);
  
 
 app.use("/supplier",supplierRouter)
