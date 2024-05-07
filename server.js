@@ -15,6 +15,7 @@ const customerRouter = require('./routes/cutomer.routes');
 const supplierRouter = require('./routes/supplier.routes')
 const webitemRouter = require('./routes/web.inventory.routes')
 const itemrouter = require('./routes/inventory.routes')
+const categoryRouter = require('./routes/category.routes')
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -42,12 +43,11 @@ connection.once("open", () => {
  app.use("/user",useRouter);
  app.use("/customer", customerRouter);
 // app.use("/suspend_sale",suspendRouter);
- 
-
 app.use("/supplier",supplierRouter)
 app.use("/user",useRouter);
 app.use("/webitem",webitemRouter);
 app.use("/item",itemrouter);
+app.use('/category',categoryRouter);
 
 
 module.exports = app;
