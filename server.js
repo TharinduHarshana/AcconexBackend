@@ -6,9 +6,10 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const useRouter = require("./routes/user.routes");
 const supplierRouter = require("./routes/supplier.routes");
-const itemRouter = require("./routes/web.inventory.routes");
+
 const itemKitRouter = require("./routes/item.kit.routes");
 const cookieParser = require("cookie-parser");
+const router = require("./routes/inventory.routes");
 const PORT = process.env.PORT || 8000;
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -51,7 +52,7 @@ connection.once("open", () => {
 //Importing the route
 app.use("/supplier", supplierRouter);
 app.use("/user", useRouter);
-app.use("/item", itemRouter);
+app.use("/item", router);
 app.use("/itemkit", itemKitRouter);
 
 // Export the Express application

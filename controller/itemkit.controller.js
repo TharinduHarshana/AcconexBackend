@@ -1,7 +1,8 @@
-
+//Define item kit controller
 
 const mongoose = require("mongoose");
 const ItemKitModel = require("../models/item.kit.model");
+const inventoryModel = require("../models/inventory.model");
 
 //create the item kit
 async function createItemKit(req, res) {
@@ -25,29 +26,35 @@ async function createItemKit(req, res) {
   }
 
   try {
-     // Fetch the current inventory items
-    // const inventoryItems = await InventoryModel.find({
+    // Fetch the current inventory items
+    // const inventoryItems = await inventoryModel.find({
     //   productID: { $in: items.map((item) => item.productID) },
     // });
 
     // // Update the quantity of each item in the inventory
-    // const updatedInventoryItems = items
-    //   .map((item) => {
-    //     const inventoryItem = inventoryItems.find(
-    //       (i) => i.productID === item.productID
-    //     );
-    //     if (inventoryItem) {
-    //       inventoryItem.quantity -= item.itemQuantity; // Reduce the quantity
-    //       return inventoryItem;
-    //     }
-    //     return null; // Return null if the item is not found in the inventory
-    //   })
-    //   .filter((item) => item !== null); // Filter out null values
+    // for (const item of items) {
+    //   const inventoryItem = inventoryItems.find(
+    //     (i) => i.productID === item.productID
+    //   );
+    //   if (inventoryItem) {
+    //     inventoryItem.quantity -= item.itemQuantity;
+    //     await inventoryItem.save();
+    //   }
+    // }
+    // Fetch the current inventory items
+    // const inventoryItems = await inventoryModel.find({ productID: { $in: items.map((item) => item.productID) } });
 
-    // // Save the updated inventory items back to the database
-    // await InventoryModel.updateMany(updatedInventoryItems, {
-    //   quantity: { $set: updatedInventoryItems.map((item) => item.quantity) },
+    // // Update the quantity of each item in the inventory
+    // items.forEach((item) => {
+    //   const inventoryItem = inventoryItems.find((i) => i.productID === item.productID);
+    //   if (inventoryItem) {
+    //     inventoryItem.quantity -= item.itemQuantity;
+    //     inventoryItem.save(); // Save the updated inventory item
+    //   }
     // });
+
+    // // Fetch the updated inventory items after deduction
+    // const updatedInventoryItems = await inventoryModel.find({ productID: { $in: items.map((item) => item.productID) } });
 
     // Create a new item kit
     const newItemKit = new ItemKitModel({
@@ -65,11 +72,10 @@ async function createItemKit(req, res) {
     // Save the item kit to the database
     const savedItemKit = await newItemKit.save();
 
-  
     res.status(201).json({ success: true, data: savedItemKit });
   } catch (error) {
     console.error("Error saving item kit:", error);
-    
+
     res.status(500).json({ success: false, error: error.message });
   }
 }
@@ -141,19 +147,27 @@ const updateKitById = async (req, res) => {
   try {
     const _id = req.params.id; // Extracting item kit ID from the URL path
     const updateData = req.body;
-    
+
     // Check if the provided ID is a valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(_id)) {
-      return res.status(400).json({ success: false, message: "Invalid item kit ID" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid item kit ID" });
     }
 
     // Find the item kit by ID and update it
-    const updatedItemKit = await ItemKitModel.findByIdAndUpdate(_id, updateData, {
-      new: true,
-    });
+    const updatedItemKit = await ItemKitModel.findByIdAndUpdate(
+      _id,
+      updateData,
+      {
+        new: true,
+      }
+    );
 
     if (!updatedItemKit) {
-      return res.status(404).json({ success: false, message: "Item Kit not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Item Kit not found" });
     }
 
     console.log("Updated item kit:", updatedItemKit); // Log the updated data
@@ -165,6 +179,11 @@ const updateKitById = async (req, res) => {
   }
 };
 
-
-
-module.exports = { createItemKit, getAllKit, checkItemKitId, deleteKitById,getItemKitById,updateKitById };
+module.exports = {
+  createItemKit,
+  getAllKit,
+  checkItemKitId,
+  deleteKitById,
+  getItemKitById,
+  updateKitById,
+};

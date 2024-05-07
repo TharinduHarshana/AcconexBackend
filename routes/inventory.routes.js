@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {addNewItem ,getAllItems , getItemByID , updateItemByID , deleteItemById, getItemSellingPrice} = require('../controller/inventory.controller');
+const {addNewItem ,getAllItems , getItemByID , updateItemByID , deleteItemById} = require('../controller/inventory.controller');
 
 // Add a new Item
 router.post('/add', addNewItem);
