@@ -45,4 +45,19 @@ const getAllDailysales = async function ( req,res) {
     }
 }
 
-module.exports= { addDailysales,getAllDailysales};
+
+// Delete sale by sales id
+// http://localhost:8000/dailysales/delete/:id
+const deleteDailysalesById = async function (req, res) {
+    try {
+        const POS_NO = req.params.id;
+        await Dailysales.findOneAndDelete({ POSNO: POS_NO });
+        res.status(200).json({ success: true, message: "sale deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+}
+
+
+module.exports= { addDailysales,getAllDailysales,deleteDailysalesById};
