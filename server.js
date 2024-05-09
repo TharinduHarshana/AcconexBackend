@@ -51,8 +51,10 @@ connection.once("open", () => {
 //Importing the route
 
  app.use("/user",useRouter);
- //app.use("/customer", router);
-// app.use("/suspend_sale",suspendRouter);
+
+ app.use("/customer", customerRouter);
+ app.use("/dailysales", salesRouter);
+
  
 
 app.use("/supplier",supplierRouter)
