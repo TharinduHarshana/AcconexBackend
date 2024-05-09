@@ -4,24 +4,29 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
-const useRouter = require('./routes/user.routes');
-const itemRouter = require('./routes/web.inventory.routes');
-const webCustomerRouter = require('./routes/web.customer.routes');
-const webitemRouter = require('./routes/web.inventory.routes');
-const customerRouter = require('./routes/cutomer.routes');
-const supplierRouter = require('./routes/supplier.routes');
+const cookieParser = require('cookie-parser');
+
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
+
+const useRouter = require('./routes/user.routes');
+const webitemRouter = require('./routes/web.inventory.routes');
+const webuserRouter = require('./routes/web.user.routes');
+const customerRouter = require('./routes/cutomer.routes');
+const supplierRouter = require('./routes/supplier.routes');
+
+
 app.use(bodyParser.json());
 app.use(express.json()) // for parsing application/json
+// configure CORS
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000"],
   methods: ["GET", "POST"],
   credentials: true,
+})) 
+app.use(cookieParser());
 
-
-})) // configure CORS
 app.use(bodyParser.json());
 
 // start server
@@ -39,8 +44,7 @@ connection.once("open", () => {
 
 //Importing the route
 app.use("/user",useRouter);
-app.use("/item",itemRouter);
-app.use("/webcustomer",webCustomerRouter);
+app.use("/webuser",webuserRouter);
 app.use("/customer", customerRouter);
 // app.use("/suspend_sale",suspendRouter);
 app.use("/supplier",supplierRouter)
