@@ -1,61 +1,41 @@
-const { model, Schema } = require("mongoose");
-const bcrypt = require("bcrypt");
-const jwt=require("jsonwebtoken");
+const { model, Schema } = require("mongoose"); // Import the model and Schema objects from Mongoose
+const bcrypt = require("bcrypt"); // Import the bcrypt library for password hashing
+const jwt = require("jsonwebtoken");
 
-//Defining the User Schema
+
+// Define a new Schema for the User model
 const UserSchema = new Schema({
   userId: { type: String, unique: true },
   userName: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String },
-  password: { type: String, required: true,trim:true },
-  gmail: { type: String, required: true,trim:true },
+  password: { type: String, required: true, trim: true },
+  gmail: { type: String, required: true, trim: true },
   dob: { type: Date },
   phoneNumber: { type: Number, required: true },
   address: { type: String, required: true },
   idNumber: { type: String, required: true },
   gender: { type: String, required: true },
-  role: { type: String },
-  tokens:[{
-    token:{type:String}
-  }]
+  role: {
+    type: String,
+    enum: ["admin", "user", "inventory manager", "sales staff", "cashier"],
+    default: "user",
+  },
 });
 
-// Encrypt password before saving
+// Define a pre-save hook to hash the password before saving the user to the database
 UserSchema.pre("save", async function (next) {
-  const user = this;
-  if (user.isNew || user.isModified("password")) {
-    user.password = await bcrypt.hash(user.password, 8);
+  // Check if the password field has been modified
+  if (this.isModified("password")) {
+    // If so, hash the password using bcrypt with a salt round of 10
+    this.password = await bcrypt.hash(this.password, 10);
   }
+  
+  // Proceed to the next middleware
   next();
 });
 
-
-UserSchema.statics.findByCredentials=async(userName,password)=>{
-  
-  const user= await UserModel.findOne({userName})
-    if(!user){
-        throw new Error()
-    }
-    const isMatch= await bcrypt.compare(password,user.password)
-    if(!isMatch){
-        throw new Error()
-    }
-return user;
-
-}
-//generate token through user
-// UserSchema.methods.generateAuthToken=async function(){
-//   const user=this;
-//   const token= jwt.sign({_id:user._id.toString()},"mysecret")
-//   user.tokens=user.tokens.concat({token})
-
-//   //sent the user database
-//   await user.save()
-//   return token;
-
-// }
-
-//Exporting the User model
+// Create a model from the UserSchema, named "User"
 const UserModel = model("User", UserSchema);
+// Export the UserModel for use in other parts of the application
 module.exports = UserModel;

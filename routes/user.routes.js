@@ -1,30 +1,54 @@
 const useRouter = require("express").Router();
+const authMiddleware = require("../Middlewares/auth.middleware");
+const roleCheck = require("../Middlewares/role.check.middleware");
+const { login, logout } = require("../controller/auth.controller");
 const {
-  login,
   addUser,
   getAllUser,
   getUserById,
   deleteUserById,
   updateUserById,
+  checkUserId,
 } = require("../controller/user.controller");
 
-// create login
+// Route for user login
 useRouter.post("/login", login);
 
-// Add a user
-useRouter.post("/add", addUser);
+// Route for user logout
+useRouter.get("/logout", logout);
 
-// Get all users
-useRouter.get("/all", getAllUser);
+// Route for adding a new user
+useRouter.post("/add", authMiddleware, roleCheck(["admin"]), addUser);
 
-// Get user by userId
-useRouter.get("/:id", getUserById); // Changed the parameter name to ':id'
+// Route for getting all users (restricted to admin role)
+useRouter.get("/all", authMiddleware, roleCheck(["admin"]), getAllUser);
 
-// Update user by userId
-useRouter.patch("/update/:id", updateUserById); // Changed the parameter name to ':id'
+// Route for getting user by Id (restricted to admin role)
+useRouter.get("/:id", authMiddleware, roleCheck(["admin"]), getUserById); // Changed the parameter name to ':id'
 
-// Delete user by userId
-useRouter.delete("/delete/:_id", deleteUserById);
+// Route for checking user by ID (restricted to admin role)
+useRouter.get(
+  "/check/:userId",
+  authMiddleware,
+  roleCheck(["admin"]),
+  checkUserId
+);
+
+// Route for updating a user by ID (restricted to admin role)
+useRouter.patch(
+  "/update/:id",
+  authMiddleware,
+  roleCheck(["admin"]),
+  updateUserById
+); 
+
+// Route for deleting a user by ID (restricted to admin role)
+useRouter.delete(
+  "/delete/:_id",
+  authMiddleware,
+  roleCheck(["admin"]),
+  deleteUserById
+);
 
 // Exporting the router
 module.exports = useRouter;

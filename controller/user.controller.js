@@ -1,26 +1,14 @@
+// Import the UserModel from the models directory
 const UserModel = require("../models/user.model");
+// Import the bcrypt library for password hashing
 const bcrypt = require("bcrypt");
+// Import the mongoose library for database operations
 const mongoose = require("mongoose");
 
-// Create the login
-
-async function login(req, res) {
-  try {
-    const user = await UserModel.findByCredentials(
-      req.body.userName,
-      req.body.password
-    );
-    // const token=await user.generateAuthToken()
-    //res.json({ success: true, data:user });
-    res.send({ user });
-  } catch (error) {
-    console.log(error);
-    res.status(401).json({ success: false, message: "Unauthorized" });
-  }
-}
-
+// Function to add a new user
 async function addUser(req, res) {
   try {
+    // Destructure the request body to get user details
     const {
       userId,
       userName,
@@ -84,7 +72,7 @@ async function addUser(req, res) {
   }
 }
 
-//Get all users
+// Function to get all user
 const getAllUser = async function getUser(req, res) {
   try {
     const users = await UserModel.find();
@@ -95,7 +83,7 @@ const getAllUser = async function getUser(req, res) {
   }
 };
 
-//Get a single user by userId
+// Function to get a single user by userId
 const getUserById = async function getUserId(req, res) {
   try {
     const user = await UserModel.findById({ _id: req.params.id });
@@ -106,7 +94,22 @@ const getUserById = async function getUserId(req, res) {
   }
 };
 
-//Update user by userId
+// Function to check if a userId exists
+async function checkUserId(req, res) {
+  try {
+    const userExist = await UserModel.findOne({ userId: req.params.userId });
+    if (userExist) {
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+// Function to update a user by userId
 const updateUserById = async function updateUser(req, res) {
   try {
     const _id = req.params.id; // Extracting user ID from the URL path
@@ -137,7 +140,8 @@ const updateUserById = async function updateUser(req, res) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-//Delete user by id
+
+// Function to delete a user by id
 const deleteUserById = async (req, res) => {
   try {
     const deleteUserById = await UserModel.findByIdAndDelete(req.params._id);
@@ -159,13 +163,12 @@ const deleteUserById = async (req, res) => {
     });
   }
 };
-
+// Export the functions for use in other parts of the application
 module.exports = {
   addUser,
   getAllUser,
   getUserById,
   updateUserById,
   deleteUserById,
-
-  login,
+  checkUserId,
 };
