@@ -1,61 +1,67 @@
 //Define item kit controller
 
+
 const mongoose = require("mongoose");
 const ItemKitModel = require("../models/item.kit.model");
-const inventoryModel = require("../models/inventory.model");
+const InventoryModel = require("../models/inventory.model");
+
 
 //create the item kit
+// async function createItemKit(req, res) {
+//   // Destructure the request body
+//   const { itemKitId, itemKitName, itemDescription, price, kitQuantity, items } =
+//     req.body;
+
+//   // Validate the request body
+//   if (
+//     !itemKitId ||
+//     !itemKitName ||
+//     !itemDescription ||
+//     !price ||
+//     !kitQuantity ||
+//     !items ||
+//     items.length === 0
+//   ) {
+//     return res
+//       .status(400)
+//       .json({ success: false, error: "Missing required fields" });
+//   }
+
+//   try {
+   
+//     // Create a new item kit
+//     const newItemKit = new ItemKitModel({
+//       itemKitId,
+//       itemKitName,
+//       itemDescription,
+//       price,
+//       kitQuantity,
+//       items: items.map((item) => ({
+//         productID: item.productID,
+//         itemQuantity: item.quantity,
+//       })),
+//     });
+
+//     // Save the item kit to the database
+//     const savedItemKit = await newItemKit.save();
+
+//     res.status(201).json({ success: true, data: savedItemKit });
+//   } catch (error) {
+//     console.error("Error saving item kit:", error);
+
+//     res.status(500).json({ success: false, error: error.message });
+//   }
+// }
+
 async function createItemKit(req, res) {
-  // Destructure the request body
-  const { itemKitId, itemKitName, itemDescription, price, kitQuantity, items } =
-    req.body;
+  const { itemKitId, itemKitName, itemDescription, price, kitQuantity, items } = req.body;
 
   // Validate the request body
-  if (
-    !itemKitId ||
-    !itemKitName ||
-    !itemDescription ||
-    !price ||
-    !kitQuantity ||
-    !items ||
-    items.length === 0
-  ) {
-    return res
-      .status(400)
-      .json({ success: false, error: "Missing required fields" });
+  if (!itemKitId ||!itemKitName ||!itemDescription ||!price ||!kitQuantity ||!items || items.length === 0) {
+    return res.status(400).json({ success: false, error: "Missing required fields" });
   }
 
   try {
-    // Fetch the current inventory items
-    // const inventoryItems = await inventoryModel.find({
-    //   productID: { $in: items.map((item) => item.productID) },
-    // });
-
-    // // Update the quantity of each item in the inventory
-    // for (const item of items) {
-    //   const inventoryItem = inventoryItems.find(
-    //     (i) => i.productID === item.productID
-    //   );
-    //   if (inventoryItem) {
-    //     inventoryItem.quantity -= item.itemQuantity;
-    //     await inventoryItem.save();
-    //   }
-    // }
-    // Fetch the current inventory items
-    // const inventoryItems = await inventoryModel.find({ productID: { $in: items.map((item) => item.productID) } });
-
-    // // Update the quantity of each item in the inventory
-    // items.forEach((item) => {
-    //   const inventoryItem = inventoryItems.find((i) => i.productID === item.productID);
-    //   if (inventoryItem) {
-    //     inventoryItem.quantity -= item.itemQuantity;
-    //     inventoryItem.save(); // Save the updated inventory item
-    //   }
-    // });
-
-    // // Fetch the updated inventory items after deduction
-    // const updatedInventoryItems = await inventoryModel.find({ productID: { $in: items.map((item) => item.productID) } });
-
     // Create a new item kit
     const newItemKit = new ItemKitModel({
       itemKitId,
@@ -69,16 +75,25 @@ async function createItemKit(req, res) {
       })),
     });
 
-    // Save the item kit to the database
     const savedItemKit = await newItemKit.save();
 
-    res.status(201).json({ success: true, data: savedItemKit });
-  } catch (error) {
-    console.error("Error saving item kit:", error);
+    // Update inventory items' quantities based on the items included in the kit
+    const updatedInventoryItems = await InventoryModel.find({ productID: { $in: items.map(item => item.productID) } });
+    updatedInventoryItems.forEach(async (item) => {
+      const kitItem = items.find(kitItem => kitItem.productID === item.productID);
+      if (kitItem) {
+        item.quantity -= kitItem.quantity;
+        await item.save();
+      }
+    });
 
+    res.status(201).json({ success: true, data: savedItemKit, updatedInventoryItems });
+  } catch (error) {
+    console.error("Error creating item kit:", error);
     res.status(500).json({ success: false, error: error.message });
   }
 }
+
 
 // Function to get all item kits
 const getAllKit = async function getAllKits(req, res) {
