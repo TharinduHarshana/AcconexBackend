@@ -1,6 +1,7 @@
 const useRouter = require("express").Router();
 const authMiddleware = require("../Middlewares/auth.middleware");
 const roleCheck = require("../Middlewares/role.check.middleware");
+const upload = require("../Middlewares/upload.middleware");
 const { login, logout } = require("../controller/auth.controller");
 const {
   addUser,
@@ -9,6 +10,8 @@ const {
   deleteUserById,
   updateUserById,
   checkUserId,
+  updateProfile,
+  getUserProfile,
 } = require("../controller/user.controller");
 
 // Route for user login
@@ -22,6 +25,17 @@ useRouter.post("/add", authMiddleware, roleCheck(["admin"]), addUser);
 
 // Route for getting all users (restricted to admin role)
 useRouter.get("/all", authMiddleware, roleCheck(["admin"]), getAllUser);
+
+//Route for update profile
+useRouter.patch(
+  "/profile",
+  authMiddleware,
+  upload.single("profilePicture"),
+  updateProfile
+);
+
+//get user profile data
+useRouter.get("/edit/profile", authMiddleware, getUserProfile);
 
 // Route for getting user by Id (restricted to admin role)
 useRouter.get("/:id", authMiddleware, roleCheck(["admin"]), getUserById); // Changed the parameter name to ':id'
@@ -40,7 +54,7 @@ useRouter.patch(
   authMiddleware,
   roleCheck(["admin"]),
   updateUserById
-); 
+);
 
 // Route for deleting a user by ID (restricted to admin role)
 useRouter.delete(

@@ -163,6 +163,84 @@ const deleteUserById = async (req, res) => {
     });
   }
 };
+
+
+//update user profile
+// const updateProfile = async (req, res) => {
+//   try {
+//     const { firstName, lastName, phoneNumber, email, address, birthday, idNumber } = req.body;
+
+//     let updateFields = {
+//       firstName,
+//       lastName,
+//       phoneNumber,
+//       email,
+//       address,
+//       birthday,
+//       idNumber
+//     };
+
+//     // Check if a file is uploaded
+//     if (req.file) {
+//       updateFields.profilePicture = req.file.path; // Assuming you're storing the file path in the database
+//     }
+
+//     // Update user profile
+//     await UserModel.findByIdAndUpdate(req.user._id, updateFields);
+
+//     res.status(200).json({ message: "Profile updated successfully" });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
+
+const updateProfile=async(req,res)=>{
+  try{
+  const { id } = req.user; // Assuming the user object is attached to the request by the auth middleware
+    const { firstName, lastName, phoneNumber, email, address, birthday, idNumber,password, profilePicture } = req.body;
+    // Convert the birthday to the required format
+    const formattedBirthday = birthday? new Date(birthday).toISOString().split('T')[0] : null;
+
+    // Find the user by ID
+    const user = await UserModel.findById(id);
+
+    // Update the user's information
+    user.firstName = firstName || user.firstName;
+    user.lastName = lastName || user.lastName;
+    user.phoneNumber = phoneNumber || user.phoneNumber;
+    user.gmail = email || user.gmail;
+    user.address = address || user.address;
+    user.birthday = formattedBirthday;
+    user.idNumber = idNumber || user.idNumber;
+    user.password=password|| user.password
+    if (profilePicture) {
+      user.profilePicture = profilePicture; // Assuming you have a way to handle file uploads
+    }
+
+    // Save the updated user
+    await user.save();
+
+    // Return success response
+    res.status(200).json({ message: "Profile updated successfully", success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+const getUserProfile = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user._id); // Assuming req.user._id is populated by authMiddleware
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 // Export the functions for use in other parts of the application
 module.exports = {
   addUser,
@@ -171,4 +249,5 @@ module.exports = {
   updateUserById,
   deleteUserById,
   checkUserId,
+  updateProfile,getUserProfile
 };
