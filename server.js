@@ -49,18 +49,14 @@ connection.once("open", () => {
 });
 
 //Importing the route
-
- app.use("/user",useRouter);
-
- app.use("/customer", customerRouter);
- app.use("/dailysales", salesRouter);
-
- 
-
-app.use("/supplier",supplierRouter)
 app.use("/user",useRouter);
+app.use("/webuser",webuserRouter);
+app.use("/customer", customerRouter);
+// app.use("/suspend_sale",suspendRouter);
+app.use("/supplier",supplierRouter)
+app.use("/webitem",webitemRouter);
+app.use("/dailysales", salesRouter);
 app.use("/itemkit",itemKitRouter)
-// app.use("/webitem",webitemRouter);
 app.use("/item",itemrouter);
 
 

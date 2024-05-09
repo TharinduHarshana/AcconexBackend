@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {getAllItems,updateItemByID, getCategoryWiseItems } = require('../controller/web.inventory.controller');
+const {getAllItems, getCategoryWiseItems } = require('../controller/web.inventory.controller');
 
 
 // get all items
