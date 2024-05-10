@@ -15,6 +15,7 @@ const webitemRouter = require('./routes/web.inventory.routes');
 const webuserRouter = require('./routes/web.user.routes');
 const customerRouter = require('./routes/cutomer.routes');
 const supplierRouter = require('./routes/supplier.routes');
+const itemRouter = require('./routes/inventory.routes');
 
 
 app.use(bodyParser.json());
@@ -49,6 +50,7 @@ app.use("/customer", customerRouter);
 // app.use("/suspend_sale",suspendRouter);
 app.use("/supplier",supplierRouter)
 app.use("/webitem",webitemRouter);
+app.use("/item",itemRouter);
 
 
 module.exports = app;
