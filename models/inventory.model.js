@@ -14,9 +14,8 @@ const inventorySchema = new Schema({
     supplierID: {type:Number},
     warranty:{type:String},
     category: {type:String, require:true},
-},{
-    timestamps: true,
-});
+    imageLink: {type:String}
+},);
 
 // Exporting inventory
 module.exports = mongoose.model('Inventory',inventorySchema);
