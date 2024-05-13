@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 
 
 const useRouter = require("./routes/user.routes");
-const customerRouter = require('./routes/cutomer.routes');
+
 const supplierRouter = require("./routes/supplier.routes");
 const itemKitRouter = require("./routes/item.kit.routes");
 const itemrouter = require("./routes/inventory.routes");
