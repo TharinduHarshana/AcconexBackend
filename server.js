@@ -8,12 +8,12 @@ const cookieParser = require("cookie-parser");
 
 
 const useRouter = require("./routes/user.routes");
-const customerRouter = require('./routes/cutomer.routes');
+//const customerRouter = require('./routes/cutomer.routes');
 const supplierRouter = require("./routes/supplier.routes");
 const itemKitRouter = require("./routes/item.kit.routes");
 const itemrouter = require("./routes/inventory.routes");
-const webuserRouter = require("./routes/web.user.routes");
-const customerRouter = require("./routes/cutomer.routes");
+//const webuserRouter = require("./routes/web.user.routes");
+//const customerRouter = require("./routes/cutomer.routes");
 const webitemRouter = require("./routes/web.inventory.routes");
 const salesRouter = require("./routes/daily_sales.routes");
 
@@ -62,8 +62,8 @@ connection.once("open", () => {
 
 
 app.use("/user",useRouter);
-app.use("/webuser",webuserRouter);
-app.use("/customer", customerRouter);
+//app.use("/webuser",webuserRouter);
+//app.use("/customer", customerRouter);
 // app.use("/suspend_sale",suspendRouter);
 app.use("/supplier",supplierRouter)
 app.use("/webitem",webitemRouter);
