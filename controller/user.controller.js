@@ -165,69 +165,33 @@ const deleteUserById = async (req, res) => {
 };
 
 
-//update user profile
-// const updateProfile = async (req, res) => {
-//   try {
-//     const { firstName, lastName, phoneNumber, email, address, birthday, idNumber } = req.body;
+const updateProfile = async (req, res) => {
+  try {
+    const { id} = req.body; 
+    const user = await UserModel.findOne({ id }); 
 
-//     let updateFields = {
-//       firstName,
-//       lastName,
-//       phoneNumber,
-//       email,
-//       address,
-//       birthday,
-//       idNumber
-//     };
-
-//     // Check if a file is uploaded
-//     if (req.file) {
-//       updateFields.profilePicture = req.file.path; // Assuming you're storing the file path in the database
-//     }
-
-//     // Update user profile
-//     await UserModel.findByIdAndUpdate(req.user._id, updateFields);
-
-//     res.status(200).json({ message: "Profile updated successfully" });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// };
-
-const updateProfile=async(req,res)=>{
-  try{
-  const { id } = req.user; // Assuming the user object is attached to the request by the auth middleware
-    const { firstName, lastName, phoneNumber, email, address, birthday, idNumber,password, profilePicture } = req.body;
-    // Convert the birthday to the required format
-    const formattedBirthday = birthday? new Date(birthday).toISOString().split('T')[0] : null;
-
-    // Find the user by ID
-    const user = await UserModel.findById(id);
-
-    // Update the user's information
-    user.firstName = firstName || user.firstName;
-    user.lastName = lastName || user.lastName;
-    user.phoneNumber = phoneNumber || user.phoneNumber;
-    user.gmail = email || user.gmail;
-    user.address = address || user.address;
-    user.birthday = formattedBirthday;
-    user.idNumber = idNumber || user.idNumber;
-    user.password=password|| user.password
-    if (profilePicture) {
-      user.profilePicture = profilePicture; // Assuming you have a way to handle file uploads
+    if (!user) {
+      return res.status(404).send('User not found');
     }
 
-    // Save the updated user
-    await user.save();
+    // Update the user fields
+    user.firstName = req.body.firstName || user.firstName;
+    user.lastName = req.body.lastName || user.lastName;
+    user.gmail = req.body.gmail || user.gmail;
+    user.dob = req.body.dob || user.dob;
+    user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+    user.address = req.body.address || user.address;
+    user.idNumber = req.body.idNumber || user.idNumber;
 
-    // Return success response
-    res.status(200).json({ message: "Profile updated successfully", success: true });
+    // Save the updated user
+    const updatedUser = await user.save();
+    console.log(updatedUser);
+    res.send(updatedUser);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).send('Server error');
   }
-}
+};
 
 const getUserProfile = async (req, res) => {
   try {
@@ -249,5 +213,6 @@ module.exports = {
   updateUserById,
   deleteUserById,
   checkUserId,
-  updateProfile,getUserProfile
+  updateProfile,
+  getUserProfile,
 };

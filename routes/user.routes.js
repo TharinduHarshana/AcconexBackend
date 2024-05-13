@@ -1,7 +1,7 @@
 const useRouter = require("express").Router();
 const authMiddleware = require("../Middlewares/auth.middleware");
 const roleCheck = require("../Middlewares/role.check.middleware");
-const upload = require("../Middlewares/upload.middleware");
+
 const { login, logout } = require("../controller/auth.controller");
 const {
   addUser,
@@ -30,7 +30,6 @@ useRouter.get("/all", authMiddleware, roleCheck(["admin"]), getAllUser);
 useRouter.patch(
   "/profile",
   authMiddleware,
-  upload.single("profilePicture"),
   updateProfile
 );
 
