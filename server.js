@@ -1,12 +1,23 @@
-require('dotenv').config()
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+require("dotenv").config();
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
-const PORT = process.env.PORT || 8000
+
+const useRouter = require("./routes/user.routes");
+const supplierRouter = require("./routes/supplier.routes");
+const itemKitRouter = require("./routes/item.kit.routes");
+const itemrouter = require("./routes/inventory.routes");
+const webuserRouter = require("./routes/web.user.routes");
+const customerRouter = require("./routes/cutomer.routes");
+const webitemRouter = require("./routes/web.inventory.routes");
+const salesRouter = require("./routes/daily_sales.routes");
+
+
+const PORT = process.env.PORT || 8000;
 const MONGO_URI = process.env.MONGO_URI;
 
 
@@ -19,29 +30,39 @@ const itemRouter = require('./routes/inventory.routes');
 
 
 app.use(bodyParser.json());
-app.use(express.json()) // for parsing application/json
-// configure CORS
-app.use(cors({
-  origin: ["http://localhost:3000"],
-  methods: ["GET", "POST"],
-  credentials: true,
-})) 
+app.use(express.json());
 app.use(cookieParser());
+//app.use(cors({origin:"*"})) // configure CORS
 
-app.use(bodyParser.json());
+// CORS configuration
+const corsOptions = {
+  // Allow requests from this origin
+  origin: "http://localhost:3000",
+  // This allows the server to receive and send cookies
+  credentials: true,
+};
+
+// Enable CORS with options
+app.use(cors(corsOptions));
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 
 // start server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-}) 
+  console.log(`Server is running on port ${PORT}`);
+});
 
 // connect to MongoDB
 mongoose.connect(MONGO_URI, {});
-const connection = mongoose.connection; 
+const connection = mongoose.connection;
 
 connection.once("open", () => {
-    console.log("Database Connection Successful");
-})
+  console.log("Database Connection Successful");
+});
 
 //Importing the route
 app.use("/user",useRouter);
@@ -50,7 +71,10 @@ app.use("/customer", customerRouter);
 // app.use("/suspend_sale",suspendRouter);
 app.use("/supplier",supplierRouter)
 app.use("/webitem",webitemRouter);
-app.use("/item",itemRouter);
+app.use("/dailysales", salesRouter);
+app.use("/itemkit",itemKitRouter)
+app.use("/item",itemrouter);
 
 
+// Export the Express application
 module.exports = app;

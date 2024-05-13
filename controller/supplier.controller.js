@@ -38,6 +38,23 @@ const getSupplierById=async function getSupplierId(req,res){
     }
   
   }
+
+  //
+  async function checkSupplierId(req,res){
+    try {
+      const supplierExist = await SupplierModel.findOne({ supplierId: req.params.supplierId });
+      if (supplierExist) {
+        res.json({ exists: true });
+      } else {
+        res.json({ exists: false });
+      }
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+   }
+  }
+
+
   const updateSupplierById = async function updateSupplier(req, res) {
     try {
       const _id = req.params.id; // Extracting user ID from the URL path
@@ -90,4 +107,4 @@ const getSupplierById=async function getSupplierId(req,res){
     }
   };
   
-module.exports={addSupplier,getSuppliers,getSupplierById,updateSupplierById,deleteSupplierById};
+module.exports={addSupplier,getSuppliers,getSupplierById,checkSupplierId,updateSupplierById,deleteSupplierById};
