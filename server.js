@@ -9,7 +9,11 @@ const supplierRouter = require("./routes/supplier.routes");
 
 const itemKitRouter = require("./routes/item.kit.routes");
 const cookieParser = require("cookie-parser");
-const router = require("./routes/inventory.routes");
+const itemrouter = require("./routes/inventory.routes");
+const customerRouter = require("./routes/cutomer.routes");
+const salesRouter = require("./routes/daily_sales.routes");
+const webitemRouter = require("./routes/web.inventory.routes");
+
 const PORT = process.env.PORT || 8000;
 const MONGO_URI = process.env.MONGO_URI;
 
