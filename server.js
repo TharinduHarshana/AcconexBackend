@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const useRouter = require("./routes/user.routes");
 const supplierRouter = require("./routes/supplier.routes");
-
 const itemKitRouter = require("./routes/item.kit.routes");
 const cookieParser = require("cookie-parser");
 const itemrouter = require("./routes/inventory.routes");
@@ -56,13 +55,16 @@ connection.once("open", () => {
 //Importing the route
 
  app.use("/user",useRouter);
+
  app.use("/customer", customerRouter);
  app.use("/dailysales", salesRouter);
+
  
 
 app.use("/supplier",supplierRouter)
 app.use("/user",useRouter);
-app.use("/webitem",webitemRouter);
+app.use("/itemkit",itemKitRouter)
+// app.use("/webitem",webitemRouter);
 app.use("/item",itemrouter);
 
 
