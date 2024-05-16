@@ -12,6 +12,7 @@ const itemrouter = require("./routes/inventory.routes");
 const customerRouter = require("./routes/cutomer.routes");
 const salesRouter = require("./routes/daily_sales.routes");
 const webitemRouter = require("./routes/web.inventory.routes");
+const SuspendRouter = require("./routes/suspend_sale.routes");
 
 const PORT = process.env.PORT || 8000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -58,6 +59,7 @@ connection.once("open", () => {
 
  app.use("/customer", customerRouter);
  app.use("/dailysales", salesRouter);
+ app.use("/suspendsale",SuspendRouter);
 
  
 
