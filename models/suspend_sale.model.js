@@ -26,11 +26,11 @@ const SuspendSaleSchema = new Schema({
         required:true
 
     },
-    Item_ID:{
+    Item_IDs:{
         type:String,
         required:true
     },
-    Item_Name:{
+    Item_Names:{
         type:String,
         required:true
     },

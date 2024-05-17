@@ -17,10 +17,10 @@ async function addsuspend(req, res) {
             Date,
             customer_id,
             customer_name,
-            Item_ID,
-            Item_Name,
+            Item_IDs:Item_ID,
+            Item_Names:Item_Name,
             Qnt,
-            total 
+            total: parseFloat(total)  
         });
 
         const savedSuspendSale = await newSuspendSale.save();
