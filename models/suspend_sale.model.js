@@ -38,6 +38,14 @@ const SuspendSaleSchema = new Schema({
         type:String,
         required:true
     },
+    Prices:{
+        type:String,
+        required:true
+    },
+    Discounts:{
+        type:String,
+        required:true
+    },
     total:{
         type:Number,
         required:true

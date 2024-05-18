@@ -4,7 +4,7 @@ const SuspendSale = require('../models/suspend_sale.model');
 // http://localhost:8000/suspendsale/add
 async function addsuspend(req, res) {
     try {
-        const { suspend_id,Cashire_Name,Date,customer_id, customer_name, Item_ID, Item_Name,Qnt,total } = req.body;
+        const { suspend_id,Cashire_Name,Date,customer_id, customer_name, Item_ID, Item_Name,Qnt,Prices,Discounts,total } = req.body;
 
         const existingSuspendSale = await SuspendSale.findOne({ suspend_id });
         if (existingSuspendSale) {
@@ -20,6 +20,8 @@ async function addsuspend(req, res) {
             Item_IDs:Item_ID,
             Item_Names:Item_Name,
             Qnt,
+            Prices,
+            Discounts,
             total: parseFloat(total)  
         });
 
@@ -49,8 +51,8 @@ const getAllSuspensale = async function ( req,res) {
 // http://localhost:8000/suspendsale/delete/:id
 const deleteSuspendSale = async function (req, res) {
     try {
-        const POS_NO = req.params.id;
-        await SuspendSale.findOneAndDelete({ POSNO: POS_NO });
+        const suspend_id = req.params.id;
+        await SuspendSale.findOneAndDelete({ suspend_id: suspend_id });
         res.status(200).json({ success: true, message: "sale deleted successfully" });
     } catch (error) {
         console.error(error);
