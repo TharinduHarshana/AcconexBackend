@@ -12,11 +12,10 @@ const useRouter = require("./routes/user.routes");
 const supplierRouter = require("./routes/supplier.routes");
 const itemKitRouter = require("./routes/item.kit.routes");
 const itemrouter = require("./routes/inventory.routes");
-const webuserRouter = require("./routes/web.user.routes");
 const customerRouter = require("./routes/cutomer.routes");
-const webitemRouter = require("./routes/web.inventory.routes");
 const salesRouter = require("./routes/daily_sales.routes");
-
+const webitemRouter = require("./routes/web.inventory.routes");
+const SuspendRouter = require("./routes/suspend_sale.routes");
 
 const PORT = process.env.PORT || 8000;
 const categoryRouter = require('./routes/category.routes')
@@ -61,6 +60,13 @@ connection.once("open", () => {
 //Importing the route
 
 
+ app.use("/customer", customerRouter);
+ app.use("/dailysales", salesRouter);
+ app.use("/suspendsale",SuspendRouter);
+
+ 
+
+app.use("/supplier",supplierRouter)
 app.use("/user",useRouter);
 app.use("/webuser",webuserRouter);
 app.use("/customer", customerRouter);

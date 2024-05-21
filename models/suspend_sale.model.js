@@ -1,61 +1,58 @@
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-// const autoIncrement = require('mongoose-auto-increment');
+const SuspendSaleSchema = new Schema({
 
-// const MONGO_URI = process.env.MONGO_URI;
+    suspend_id:{
+        type:String,
+        unique:true,
+        required:true  
+    },
+    Cashire_Name:{
+        type:String,
+        required:true
+    },
+    Date:{
+        type:String,
+        required:true
+    },
+    customer_id:
+    {
+        type:String,
+        required:true,
+    },
+    customer_name:{
+        type:String,
+        required:true
 
-// mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-// const connection = mongoose.connection;
+    },
+    Item_IDs:{
+        type:String,
+        required:true
+    },
+    Item_Names:{
+        type:String,
+        required:true
+    },
+    Qnt:{
+        type:String,
+        required:true
+    },
+    Prices:{
+        type:String,
+        required:true
+    },
+    Discounts:{
+        type:String,
+        required:true
+    },
+    total:{
+        type:Number,
+        required:true
+    }
 
-// autoIncrement.initialize(connection);
+});
 
-// const SuspendSaleSchema = new Schema({
+const Suspend_Sale=mongoose.model("Suspend_Sale",SuspendSaleSchema);
 
-//     customer_id:
-//     {
-//         type:String,
-//         unique: true,
-//         required:true,
-//     },
-//     customer_name:{
-//         type:String,
-//         required:true
-
-//     },
-//     suspend_id:{
-//         type:String,
-//         unique:true,
-//         required:true  
-//     },
-//     bill_id:{
-//         type:String,
-//         unique:true,
-//         required:true
-//     },
-//     total:{
-//         type:Number,
-//         required:true
-//     }
-
-// });
-
-// SuspendSaleSchema.plugin(autoIncrement.plugin,{
-//         model:'Suspend_Sale',
-//         field: 'suspend_id',
-//         startAt:1,
-//         incrementBy:1,
-//         prefix :'ss0'
-// });
-
-// SuspendSaleSchema.plugin(autoIncrement.plugin,{
-//     model:'Suspend_Sale',
-//     field:'bill_id',
-//     startAt:1,
-//     incrementBy:1,
-//     prefix:'bid00'
-// });
-
-// const Suspend_Sale=mongoose.model("Suspend_Sale",SuspendSaleSchema);
-
-// module.exports=Suspend_Sale;
+module.exports=Suspend_Sale;

@@ -5,7 +5,7 @@ const Dailysales = require('../models/daily_sales.model');
 async function addDailysales(req, res) {
     try {
         // Extracting data from request body
-        const { POSNO,cashirename, datetime, customername,itemcount,paymentmethod,totalamount,totalcost,profit } = req.body;
+        const { POSNO,cashirename, datetime, customername,itemcount,Item_IDs,Item_Names,Qnt,Prices,Discounts,paymentmethod,totalamount,totalcost,profit,loss} = req.body;
           
         // Creating a new dailysales instance
         const newDailysales = new Dailysales({
@@ -14,10 +14,16 @@ async function addDailysales(req, res) {
             datetime,
             customername,
             itemcount,
+            Item_IDs,
+            Item_Names,
+            Qnt,
+            Prices,
+            Discounts,
             paymentmethod,
             totalamount,
             totalcost,
-            profit
+            profit,
+            loss
         });
 
         // Saving the new dailysales to the database
