@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 
 // Define a new Schema for the User model
+
 const UserSchema = new Schema({
   userId: { type: String, unique: true },
   userName: { type: String, required: true },
@@ -25,7 +26,7 @@ const UserSchema = new Schema({
 
 // Define a pre-save hook to hash the password before saving the user to the database
 UserSchema.pre("save", async function (next) {
-  // Check if the password field has been modified
+  
   if (this.isModified("password")) {
     // If so, hash the password using bcrypt with a salt round of 10
     this.password = await bcrypt.hash(this.password, 10);
@@ -37,5 +38,7 @@ UserSchema.pre("save", async function (next) {
 
 // Create a model from the UserSchema, named "User"
 const UserModel = model("User", UserSchema);
-// Export the UserModel for use in other parts of the application
+// Export the UserModel 
 module.exports = UserModel;
+
+

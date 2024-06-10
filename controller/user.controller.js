@@ -164,14 +164,13 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-
 const updateProfile = async (req, res) => {
   try {
-    const { id} = req.body; 
-    const user = await UserModel.findOne({ id }); 
+    const { id } = req.body;
+    const user = await UserModel.findOne({ id });
 
     if (!user) {
-      return res.status(404).send('User not found');
+      return res.status(404).send("User not found");
     }
 
     // Update the user fields
@@ -189,7 +188,7 @@ const updateProfile = async (req, res) => {
     res.send(updatedUser);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Server error');
+    res.status(500).send("Server error");
   }
 };
 
