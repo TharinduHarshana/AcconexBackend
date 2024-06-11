@@ -4,6 +4,27 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
+// Middleware to extract user details from token
+const getUserFromToken = async (req, res, next) => {
+    const token = req.headers['authorization'];
+    if (!token) {
+        return res.status(401).json({ message: "No token provided" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await WebUserModel.findById(decoded.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        req.user = user;
+        next();
+    } catch (error) {
+        console.error('Error:', error.message);
+        return res.status(500).json({ message: "Failed to authenticate token" });
+    }
+};
+
 // Controller function to add a new user
 const addWebUser = async (req, res) => {
     try {
@@ -11,13 +32,13 @@ const addWebUser = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ status: "error", message: "User already exists" });
         }
-        const existingPhoneNumber = await WebUserModel.findOne({ contactNumber: req.body.contactNumber });
-        if (existingPhoneNumber) {
-            return res.status(400).json({ status: "error", message: "Duplicate phone number found" });
-        }
         const existingUsername = await WebUserModel.findOne({ username: req.body.username });
         if (existingUsername) {
             return res.status(400).json({ status: "error", message: "User with this username already exists" });
+        }
+        const existingContactNumber = await WebUserModel.findOne({ contact : req.body.contactNumber });
+        if (existingContactNumber) {
+            return res.status(400).json({ status: "error", message: "User with this contact number already exists" });
         }
 
 
@@ -25,6 +46,8 @@ const addWebUser = async (req, res) => {
         const hashpassword = await bcrypt.hash(req.body.password, 10);
 
         const newUser = new WebUserModel({
+            fname: req.body.fname,
+            lname: req.body.lname,
             username: req.body.username,
             email: req.body.email,
             password: hashpassword,
@@ -81,7 +104,7 @@ const login = async (req, res) => {
     if (!validPassword) {
         return res.json({ status: "error", message: "Invalid password" });
     }
-    const token = jwt.sign({username:webUser.username }, process.env.JWT_SECRET,{expiresIn: '1d'});
+    const token = jwt.sign({ id: webUser._id, username: webUser.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.cookie('token', token, { httpOnly: true });
     return res.json({ status: "success", message: "Login success", token });
 }
@@ -160,7 +183,15 @@ const resetPassword = async (req, res) => {
     }
 };
 
+//get login user all details 
+const getWebUserDetails = async (req, res) => {
+    try {
+        const webUser = await WebUserModel.findById(req.user.id);
+        res.json(webUser);
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
 
-
-
-module.exports = { addWebUser, getAllWebUsers, deleteWebUser, login , forgotPassword, resetPassword};
+module.exports = { addWebUser, getAllWebUsers, deleteWebUser, login , forgotPassword, resetPassword, getUserFromToken, getWebUserDetails};
