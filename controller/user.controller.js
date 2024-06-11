@@ -1,8 +1,8 @@
-// Import the UserModel from the models directory
+// import the UserModel 
 const UserModel = require("../models/user.model");
-// Import the bcrypt library for password hashing
+// import the bcrypt library for password hashing
 const bcrypt = require("bcrypt");
-// Import the mongoose library for database operations
+// import the mongoose 
 const mongoose = require("mongoose");
 
 // Function to add a new user
