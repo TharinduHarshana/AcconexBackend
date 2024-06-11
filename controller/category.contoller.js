@@ -11,7 +11,7 @@ const addNewCategory = async (req, res) => {
         }
 
         // Create a new category
-        const { categoryname, description,imgLink } = req.body;
+        const { categoryname, description,imageLink } = req.body;
         const category = new Category({ categoryname, description,imageLink});
         const result = await category.save();
 

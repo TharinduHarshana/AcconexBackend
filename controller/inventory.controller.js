@@ -91,8 +91,8 @@ check('category').notEmpty().withMessage('Select Category');
 
     // Updating Item
     try {
-        const { productID , displayName , itemName , quantity , costPrice , sellingPrice , fixedPrice , itemSereal , supplierID , warranty , category } = req.body;
-        const updateData = { productID , displayName , itemName , quantity , costPrice , sellingPrice , fixedPrice , itemSereal , supplierID , warranty , category };
+        const { productID , displayName , itemName , discription, quantity , costPrice , sellingPrice , fixedPrice , itemSereal , supplierID , warranty , category } = req.body;
+        const updateData = { productID , displayName , itemName , discription, quantity , costPrice , sellingPrice , fixedPrice , itemSereal , supplierID , warranty , category };
         const updateItem = await Inventory.findByIdAndUpdate(req.params.id, updateData);
 
         if (!updateItem) 

@@ -14,7 +14,8 @@ const inventorySchema = new Schema({
     supplierID: {type:Number},
     warranty:{type:String},
     category: {type:String, require:true},
-    imageLink: {type:String}
+    imageLink: {type:String},
+    description: {type:String, require:true},
 },);
 
 // Exporting inventory
