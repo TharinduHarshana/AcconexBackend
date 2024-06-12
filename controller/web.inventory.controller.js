@@ -30,5 +30,34 @@ const getCategoryWiseItems = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 }
+
+// get serching value items
+const getSearchResults = async (req, res) => {
+    try {
+        const value = req.params.value;
+        if (!value || value.trim().length === 0) {
+            return res.status(400).json({ success: false, message: 'Search value is required' });
+        }
+
+        // Log the search value for debugging purposes
+        console.log(`Search value: ${value}`);
+
+        // Perform the search
+        const items = await Inventory.find({ displayName: { $regex: value, $options: 'i' } });
+
+        // Log the found items for debugging purposes
+        console.log(`Found items: ${items}`);
+
+        if (!items || items.length === 0) {
+            return res.status(404).json({ success: false, message: 'No items found' });
+        }
+
+        res.status(200).json({ success: true, data: items });
+    } catch (err) {
+        // Log the error for debugging purposes
+        console.error('Error occurred:', err);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
 // Exporting APIs
-module.exports = {getAllItems, getCategoryWiseItems};
+module.exports = {getAllItems, getCategoryWiseItems , getSearchResults};

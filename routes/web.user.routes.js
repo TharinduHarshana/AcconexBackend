@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { addWebUser,deleteWebUser,getAllWebUsers,login, forgotPassword, resetPassword} = require('../controller/web.user.controller');
+const { addWebUser,deleteWebUser,getAllWebUsers,login, forgotPassword, resetPassword, getUserFromToken, getWebUserDetails} = require('../controller/web.user.controller');
 
 
 //get all web users
@@ -19,5 +19,8 @@ router.post('/frogotpassword', forgotPassword);
 
 //reset password
 router.post('/resetPassword/:token', resetPassword)
+
+//get User by ID
+router.get('/get', getUserFromToken, getWebUserDetails);
 
 module.exports = router;

@@ -1,29 +1,29 @@
 const express = require("express");
-const router = express.Router();
+const customerRouter = express.Router();
 const { addCustomer, getAllCustomers, updateCustomerById, getCustomerById, deleteCustomerById,getCustomerByName } = require("../controller/customer.controller");
 
 // Add a new customer
-router.post('/add', addCustomer);
+customerRouter.post('/add', addCustomer);
 
 // Get all customers
-router.get("/", getAllCustomers);
+customerRouter.get("/", getAllCustomers);
 
 
 // Update a customer by ID
-router.patch("/update/:id", updateCustomerById);
+customerRouter.patch("/update/:id", updateCustomerById);
 
 
 // Get a customer by ID
-router.get("/get/:id", getCustomerById);
+customerRouter.get("/get/:id", getCustomerById);
 
 
 //get customer by name
-router.get("/getbyName/:name",getCustomerByName);
+customerRouter.get("/getbyName/:name",getCustomerByName);
 
 
 // Delete a customer by ID
-router.delete("/delete/:id", deleteCustomerById);
+customerRouter.delete("/delete/:id", deleteCustomerById);
 
 
 // Exporting the router
-module.exports = router;
+module.exports = customerRouter;

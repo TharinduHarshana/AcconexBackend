@@ -25,6 +25,26 @@ const DailysalesSchema = new Schema({
         type: Number,
         required: true 
     },
+    Item_IDs:{
+        type:String,
+        required:true
+    },
+    Item_Names:{
+        type:String,
+        required:true
+    },
+    Qnt:{
+        type:String,
+        required:true
+    },
+    Prices:{
+        type:String,
+        required:true
+    },
+    Discounts:{
+        type:String,
+        required:true
+    },
     paymentmethod: {
         type: String,
         required: true 
@@ -41,6 +61,7 @@ const DailysalesSchema = new Schema({
         type: Number,
         required: true 
     }
+   
 });
 
 // Create the daily sale model using the schema
