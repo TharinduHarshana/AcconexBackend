@@ -45,8 +45,11 @@
 
 // module.exports = authMiddleware;
 
-const jwt = require("jsonwebtoken"); // Importing jsonwebtoken for token verification
-const UserModel = require("../models/user.model"); // Importing the User model
+
+
+// Importing jsonwebtoken for token verification
+const jwt = require("jsonwebtoken"); 
+const UserModel = require("../models/user.model"); 
 
 const authMiddleware = async (req, res, next) => {
   try {

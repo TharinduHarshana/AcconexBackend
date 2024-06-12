@@ -63,7 +63,6 @@ async function addUser(req, res) {
       gender,
       role,
     });
-
     console.log("New user added:", newUser);
     res.status(200).json({ success: true, data: newUser });
   } catch (error) {
