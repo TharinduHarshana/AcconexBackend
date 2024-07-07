@@ -9,7 +9,7 @@ const roleCheck = (allowedRoles) => {
       next();
     } else {
       // If user's role is not allowed, return forbidden error
-      res.status(403).json({ message: "Forbidden" });
+      res.status(403).json({ message: "Access Denied" });
     }
   };
 };

@@ -3,24 +3,22 @@
 const itemKitRouter = require("express").Router();
 const { createItemKit, getAllKit, deleteKitById, checkItemKitId, getItemKitById, updateKitById} = require("../controller/itemkit.controller");
 const authMiddleware = require("../Middlewares/auth.middleware");
-
 const roleCheck = require("../Middlewares/role.check.middleware");
 
-// // Route to create a new item kit
-itemKitRouter.post("/create",createItemKit);
+//  Route to create a new item kit
+itemKitRouter.post("/create",authMiddleware,roleCheck(["admin","inventory manager"]),createItemKit);
 // Route to check if an item kit ID exists
-itemKitRouter.get("/check/:itemKitId",checkItemKitId);
+itemKitRouter.get("/check/:itemKitId",authMiddleware,roleCheck(["admin","inventory manager"]),checkItemKitId);
 // Route to get all item kits, accessible only by admin and inventory manager
-//itemKitRouter.get("/all",authMiddleware,roleCheck(['admin','inventory manager']), getAllKit);
+itemKitRouter.get("/all",authMiddleware,roleCheck(['admin','inventory manager']), getAllKit);
 
-// // Route to get all item kits
-itemKitRouter.get("/all",getAllKit);
-// // Route to delete an item kit by ID
-itemKitRouter.delete("/delete/:_id", deleteKitById);
-// // Route to get an item kit by ID
- itemKitRouter.get("/:id",getItemKitById); 
-// // Route to update an item kit by ID
-itemKitRouter.patch("/update/:id", updateKitById); 
+
+//  Route to delete an item kit by ID
+itemKitRouter.delete("/delete/:_id",authMiddleware,roleCheck(['admin']), deleteKitById);
+//  Route to get an item kit by ID
+ itemKitRouter.get("/:id",authMiddleware,roleCheck(['admin','inventory manager']),getItemKitById); 
+//  Route to update an item kit by ID
+itemKitRouter.patch("/update/:id", authMiddleware,roleCheck(['admin','inventory manager']),updateKitById); 
 
 // Exporting the item kit router
 module.exports=itemKitRouter;
