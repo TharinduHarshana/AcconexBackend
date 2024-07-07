@@ -6,11 +6,11 @@ const authMiddleware = require("../Middlewares/auth.middleware");
 const roleCheck = require("../Middlewares/role.check.middleware");
 
 //  Route to create a new item kit
-itemKitRouter.post("/create",authMiddleware,roleCheck(["admin","inventory manager"]),createItemKit);
+itemKitRouter.post("/create",createItemKit);
 // Route to check if an item kit ID exists
 itemKitRouter.get("/check/:itemKitId",authMiddleware,roleCheck(["admin","inventory manager"]),checkItemKitId);
 // Route to get all item kits, accessible only by admin and inventory manager
-itemKitRouter.get("/all",authMiddleware,roleCheck(['admin','inventory manager']), getAllKit);
+itemKitRouter.get("/all", getAllKit);
 
 
 //  Route to delete an item kit by ID

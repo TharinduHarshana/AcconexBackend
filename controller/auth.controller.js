@@ -63,5 +63,42 @@ const logout = (req, res) => {
   // Sending logout success response
   return res.status(200).json({ message: "Logged out successfully" });
 };
+
+const switchProfile = async (req, res) => {
+  try {
+    const { newRole } = req.body;
+
+    // Ensure the new role is valid
+    const validRoles = ["admin", "cashier", "inventory manager","sales staff"]; // Add valid roles here
+    if (!validRoles.includes(newRole)) {
+      return res.status(400).json({ message: "Invalid role specified" });
+    }
+
+    const user = await UserModel.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.role = newRole;
+    await user.save();
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.TOKEN_KEY,
+      { expiresIn: "86400s" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none"
+    });
+
+    return res.status(200).json({ message: "Profile switched successfully", success: true });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 // Exporting login and logout functions
-module.exports = { login, logout };
+module.exports = { login, logout,switchProfile };

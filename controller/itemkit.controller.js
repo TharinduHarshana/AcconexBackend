@@ -115,6 +115,8 @@ async function createItemKit(req, res) {
   }
 }
 
+
+
 // Function to get all item kits
 const getAllKit = async function getAllKits(req, res) {
   try {
@@ -165,7 +167,7 @@ const deleteKitById = async (req, res) => {
     });
   }
 };
-//  Function to get a single item kit by ID
+ //Function to get a single item kit by ID
 const getItemKitById = async function getItemKitById(req, res) {
   try {
     const kit = await ItemKitModel.findById({ _id: req.params.id });
@@ -213,6 +215,67 @@ const updateKitById = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+// const getItemKitById = async (req, res) => {
+//   try {
+//     const kit = await ItemKitModel.findById(req.params.id).populate('items.productID');
+
+//     if (!kit) {
+//       return res.status(404).json({ success: false, message: 'Item kit not found' });
+//     }
+
+//     console.log('Fetched Item Kit Data:', kit);
+
+//     // Check for items with missing productID
+//     const missingProductIDItems = kit.items.filter(item => !item.productID);
+//     if (missingProductIDItems.length > 0) {
+//       console.error('Missing productID for items:', missingProductIDItems);
+//     }
+
+//     res.status(200).json({ success: true, data: kit });
+//   } catch (error) {
+//     console.error('Error fetching item kit data:', error);
+//     res.status(500).json({ success: false, message: 'Server Error' });
+//   }
+// };
+
+
+// // Function to update kit
+// const updateKitById = async (req, res) => {
+//   console.log("updateKitById called with ID:", req.params.id);
+//   try {
+//     const _id = req.params.id; // Extracting item kit ID from the URL path
+//     const updateData = req.body;
+
+//     // Check if the provided ID is a valid ObjectId
+//     if (!mongoose.Types.ObjectId.isValid(_id)) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "Invalid item kit ID" });
+//     }
+
+//     // Find the item kit by ID and update it
+//     const updatedItemKit = await ItemKitModel.findByIdAndUpdate(
+//       _id,
+//       updateData,
+//       {
+//         new: true,
+//       }
+//     ).populate('items.productID');
+
+//     if (!updatedItemKit) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Item Kit not found" });
+//     }
+
+//     console.log("Updated item kit:", updatedItemKit); // Log the updated data
+
+//     res.status(200).json({ success: true, data: updatedItemKit });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ success: false, message: "Server Error" });
+//   }
+// };
 
 module.exports = {
   createItemKit,

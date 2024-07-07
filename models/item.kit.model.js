@@ -1,9 +1,10 @@
 // Importing mongoose for MongoDB schema creation
 
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 // Defining the inventory schema
-const itemKitSchema = new mongoose.Schema({
+const itemKitSchema = new Schema({
   itemKitId: {
     type: String,
     required: true,
