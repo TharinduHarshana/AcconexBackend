@@ -16,9 +16,9 @@ itemKitRouter.get("/all",authMiddleware,roleCheck(['admin','inventory manager'])
 //  Route to delete an item kit by ID
 itemKitRouter.delete("/delete/:_id",authMiddleware,roleCheck(['admin']), deleteKitById);
 //  Route to get an item kit by ID
- itemKitRouter.get("/:id",authMiddleware,roleCheck(['admin','inventory manager']),getItemKitById); 
+ itemKitRouter.get("/:id",getItemKitById); 
 //  Route to update an item kit by ID
-itemKitRouter.patch("/update/:id", authMiddleware,roleCheck(['admin','inventory manager']),updateKitById); 
+itemKitRouter.patch("/update/:id", updateKitById); 
 
 // Exporting the item kit router
 module.exports=itemKitRouter;
