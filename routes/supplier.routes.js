@@ -1,3 +1,6 @@
+
+const authMiddleware = require("../Middlewares/auth.middleware");
+const roleCheck = require("../Middlewares/role.check.middleware");
 const {
   addSupplier,
   getSuppliers,
@@ -10,10 +13,10 @@ const {
 const supplierRouter = require("express").Router();
 
 //create supplier
-supplierRouter.post("/add", addSupplier);
+supplierRouter.post("/add",authMiddleware,roleCheck(['admin','inventory manager']), addSupplier);
 
 //Get suppliers
-supplierRouter.get("/get", getSuppliers);
+supplierRouter.get("/get",authMiddleware,roleCheck(['admin','inventory manager']),getSuppliers);
 
 // Get supplier by supplierId
 supplierRouter.get("/:id", getSupplierById); // Changed the parameter name to ':id'
@@ -26,6 +29,6 @@ supplierRouter.get("/check/:supplierId", checkSupplierId);
 supplierRouter.patch("/update/:id", updateSupplierById); // Changed the parameter name to ':id'
 
 //Delete supplier by supplierId
-supplierRouter.delete("/delete/:_id", deleteSupplierById);
+supplierRouter.delete("/delete/:_id",authMiddleware,roleCheck(['admin']),deleteSupplierById);
 
 module.exports = supplierRouter;
