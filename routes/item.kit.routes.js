@@ -10,7 +10,7 @@ itemKitRouter.post("/create",createItemKit);
 // Route to check if an item kit ID exists
 itemKitRouter.get("/check/:itemKitId",checkItemKitId);
 // Route to get all item kits, accessible only by admin and inventory manager
-itemKitRouter.get("/all", getAllKit);
+itemKitRouter.get("/all",authMiddleware, roleCheck(["admin","inventory manager"]), getAllKit);
 
 
 //  Route to delete an item kit by ID

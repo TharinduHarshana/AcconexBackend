@@ -193,7 +193,7 @@ const updateProfile = async (req, res) => {
 
 const getUserProfile = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user._id); // Assuming req.user._id is populated by authMiddleware
+    const user = await UserModel.findById(req.user._id); 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

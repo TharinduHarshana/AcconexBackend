@@ -58,12 +58,23 @@ const login = async (req, res) => {
   }
 };
 
+// const logout = (req, res) => {
+//   // Clearing the token cookie
+//   res.clearCookie("token");
+//   // Sending logout success response
+//   return res.status(200).json({ message: "Logged out successfully" });
+// };
 const logout = (req, res) => {
   // Clearing the token cookie
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
   // Sending logout success response
   return res.status(200).json({ message: "Logged out successfully" });
 };
+
 
 const switchProfile = async (req, res) => {
   const { userId, newRole } = req.body;
@@ -93,4 +104,4 @@ const switchProfile = async (req, res) => {
 };
 
 // Exporting login and logout functions
-module.exports = { login, logout,switchProfile };
+module.exports = { login,logout,switchProfile };
