@@ -19,12 +19,12 @@ useRouter.get("/logout", logout);
 
 // Protected Routes
 
-useRouter.post("/add", authMiddleware,roleCheck(["admin"]),addUser);
-useRouter.get("/all",authMiddleware,roleCheck(["admin"]), getAllUser);
-useRouter.get("/:id",authMiddleware,roleCheck(["admin"]), getUserById); // Changed the parameter name to ':id'
-useRouter.get("/check/:userId",authMiddleware, checkUserId);
-useRouter.patch("/update/:id", authMiddleware,roleCheck(["admin"]),updateUserById);
-useRouter.delete("/delete/:_id",authMiddleware,roleCheck(["admin"]), deleteUserById);
+useRouter.post("/add",addUser);
+useRouter.get("/all", getAllUser);
+useRouter.get("/:id", getUserById); // Changed the parameter name to ':id'
+useRouter.get("/check/:userId", checkUserId);
+useRouter.patch("/update/:id",updateUserById);
+useRouter.delete("/delete/:_id", deleteUserById);
 
 // Route for switching profile (only accessible by admin)
 useRouter.post("/switch-profile", authMiddleware, roleCheck(["admin"]), switchProfile);

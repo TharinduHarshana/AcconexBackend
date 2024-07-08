@@ -1,4 +1,5 @@
 const UserModel = require("../models/user.model");
+const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -65,40 +66,31 @@ const logout = (req, res) => {
 };
 
 const switchProfile = async (req, res) => {
+  const { userId, newRole } = req.body;
+  console.log("Received switch profile request for userId:", userId, "with newRole:", newRole);
+
+  // Check if userId is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    console.error("Invalid userId:", userId);
+    return res.status(400).json({ message: 'Invalid userId' });
+  }
+
   try {
-    const { newRole } = req.body;
-
-    // Ensure the new role is valid
-    const validRoles = ["admin", "cashier", "inventory manager","sales staff"]; // Add valid roles here
-    if (!validRoles.includes(newRole)) {
-      return res.status(400).json({ message: "Invalid role specified" });
-    }
-
-    const user = await UserModel.findById(req.user._id);
+    const user = await UserModel.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      console.error("User not found for userId:", userId);
+      return res.status(404).json({ message: 'User not found' });
     }
 
     user.role = newRole;
     await user.save();
-
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.TOKEN_KEY,
-      { expiresIn: "86400s" }
-    );
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none"
-    });
-
-    return res.status(200).json({ message: "Profile switched successfully", success: true });
+    console.log("Profile switched successfully for userId:", userId);
+    res.json({ message: 'Profile switched successfully', user });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error("Error switching profile:", error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 // Exporting login and logout functions
 module.exports = { login, logout,switchProfile };
