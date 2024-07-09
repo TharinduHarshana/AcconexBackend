@@ -72,8 +72,13 @@ connection.once("open", () => {
 
 app.use("/supplier",supplierRouter)
 app.use("/user",useRouter);
+
 app.use("/webuser",webuserRouter);
 app.use("/customer", customerRouter);
+
+//app.use("/webuser",webuserRouter);
+//app.use("/customer", customerRouter);
+
 // app.use("/suspend_sale",suspendRouter);
 app.use("/supplier",supplierRouter)
 app.use("/webitem",webitemRouter);
