@@ -194,4 +194,55 @@ const getWebUserDetails = async (req, res) => {
     }
 };
 
-module.exports = { addWebUser, getAllWebUsers, deleteWebUser, login , forgotPassword, resetPassword, getUserFromToken, getWebUserDetails};
+// Update user details
+const updateWebUser = async (req, res) => {
+    const { id } = req.user;
+        const {     fname,
+                    lname,
+                    email,
+                    address,
+                    city,
+                    zip, 
+                    contactNumber,
+                    profileImage,
+                    shippingAddres,
+                    shippingCity,
+                    shippingZip,
+                    shippingContactNumber           
+                } = req.body;
+    try {
+        const updatedUser = await WebUserModel.findByIdAndUpdate(id, { fname,
+                                                                        lname,
+                                                                        email,
+                                                                        address,
+                                                                        city,
+                                                                        zip,
+                                                                        contactNumber,
+                                                                        profileImage,
+                                                                        shippingAddres,
+                                                                        shippingCity,
+                                                                        shippingZip,
+                                                                        shippingContactNumber
+                                                                    });
+        if (!updatedUser) {
+            console.error('User not found!');
+            return res.status(404).json({ message: "User not found" });
+        }
+        console.log('User updated successfully!');
+        res.json({ message: "User updated successfully" });
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { addWebUser,
+                    getAllWebUsers,
+                    deleteWebUser,
+                    login ,
+                    forgotPassword,
+                    resetPassword,
+                    getUserFromToken,
+                    getWebUserDetails,
+                    updateWebUser
+                };

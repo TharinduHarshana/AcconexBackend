@@ -28,7 +28,29 @@ const WebUserSchema = new mongoose.Schema({
     },
     contactNumber: {
         type: Number,
-    }
+    },
+    city: {
+        type: String,
+    },
+    zip: {
+        type: Number,
+    },
+    profileImage: {
+        type: String,
+    },
+    shippingAddres: {
+        type: String,
+    },
+    shippingCity: {
+        type: String,
+    },
+    shippingZip: {
+        type: Number,
+    },
+    shippingContactNumber: {
+        type: Number,
+    },
+
 });
 
 
