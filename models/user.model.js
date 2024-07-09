@@ -19,9 +19,10 @@ const UserSchema = new Schema({
   gender: { type: String, required: true },
   role: {
     type: String,
-    enum: ["admin", "user", "inventory manager", "sales staff", "cashier"],
+    enum: ["admin", "user", "inventory manager", "sales staff", "cashier","web admin"],
     default: "user",
   },
+  imageLink: {type:String},
 });
 
 // Define a pre-save hook to hash the password before saving the user to the database
