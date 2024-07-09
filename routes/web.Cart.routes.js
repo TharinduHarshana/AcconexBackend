@@ -11,11 +11,12 @@ const { addItemToCart,
      getCodOrders
       } = require('../controller/web.Cart.controller');
 
+
 // Add item to cart
-router.post('/add', verifyToken, addItemToCart);
+router.post('/add',verifyToken, addItemToCart);
 
 // Get cart items
-router.get('/get', verifyToken,getCartItems);
+router.get('/get',verifyToken,getCartItems);
 
 //update cart quantity and price
 router.put('/update', verifyToken, updateCart);

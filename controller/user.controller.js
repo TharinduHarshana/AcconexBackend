@@ -191,6 +191,34 @@ const updateProfile = async (req, res) => {
   }
 };
 
+// const updateProfile = async (req, res) => {
+//   try {
+//     const { id } = req.body;
+//     const user = await UserModel.findOne({ userId: id });
+
+//     if (!user) {
+//       return res.status(404).send("User not found");
+//     }
+
+//     // Update the user fields
+//     user.firstName = req.body.firstName || user.firstName;
+//     user.lastName = req.body.lastName || user.lastName;
+//     user.gmail = req.body.gmail || user.gmail;
+//     user.dob = req.body.dob || user.dob;
+//     user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+//     user.address = req.body.address || user.address;
+//     user.imageLink = req.body.imageLink || user.imageLink; 
+
+//     // Save the updated user
+//     const updatedUser = await user.save();
+//     console.log(updatedUser);
+//     res.send(updatedUser);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Server error");
+//   }
+// };
+
 const getUserProfile = async (req, res) => {
   try {
     const user = await UserModel.findById(req.user._id); 
