@@ -19,6 +19,7 @@ async function addCustomer(req, res) {
             name,
             address,
             mobile,
+           
         });
 
         
