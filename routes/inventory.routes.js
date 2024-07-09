@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const authMiddleware = require("../Middlewares/auth.middleware");
+const roleCheck = require("../Middlewares/role.check.middleware");
 const {addNewItem ,getAllItems , getItemByID , updateItemByID , deleteItemById,getItemCount} = require('../controller/inventory.controller');
 
 //get all items count
@@ -17,7 +19,7 @@ router.get('/:id', getItemByID);
 router.patch('/update/:id',updateItemByID);
 
 //Delete item using ID
-router.delete('/delete/:id',deleteItemById)
+router.delete('/delete/:id',authMiddleware, roleCheck(["admin"]),deleteItemById)
 
 
 

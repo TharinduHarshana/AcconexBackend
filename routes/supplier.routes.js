@@ -13,10 +13,10 @@ const {
 const supplierRouter = require("express").Router();
 
 //create supplier
-supplierRouter.post("/add",authMiddleware,roleCheck(['admin','inventory manager']), addSupplier);
+supplierRouter.post("/add",authMiddleware,addSupplier);
 
 //Get suppliers
-supplierRouter.get("/get",getSuppliers);
+supplierRouter.get("/get",roleCheck(['admin','inventory manager']),getSuppliers);
 
 // Get supplier by supplierId
 supplierRouter.get("/:id", getSupplierById); // Changed the parameter name to ':id'
