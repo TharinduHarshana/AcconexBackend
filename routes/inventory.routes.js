@@ -19,7 +19,7 @@ router.get('/:id', getItemByID);
 router.patch('/update/:id',updateItemByID);
 
 //Delete item using ID
-router.delete('/delete/:id',authMiddleware,roleCheck(["admin","inventory manager"]),deleteItemById)
+router.delete('/delete/:id',authMiddleware,roleCheck(["admin"]),deleteItemById)
 
 
 

@@ -1,7 +1,8 @@
 const express = require("express");
 const customerRouter = express.Router();
 const { addCustomer, getAllCustomers, updateCustomerById, getCustomerById, deleteCustomerById,getCustomerByName,getCustomerCount } = require("../controller/customer.controller");
-
+const authMiddleware = require("../Middlewares/auth.middleware");
+const roleCheck = require("../Middlewares/role.check.middleware");
 // Add a new customer
 customerRouter.post('/add', addCustomer);
 
@@ -9,7 +10,7 @@ customerRouter.post('/add', addCustomer);
 customerRouter.get("/count", getCustomerCount);
 
 // Get all customers
-customerRouter.get("/", getAllCustomers);
+customerRouter.get("/", authMiddleware,roleCheck(['admin','cashier']),getAllCustomers);
 
 
 // Update a customer by ID
@@ -25,7 +26,7 @@ customerRouter.get("/getbyName/:name",getCustomerByName);
 
 
 // Delete a customer by ID
-customerRouter.delete("/delete/:id", deleteCustomerById);
+customerRouter.delete("/delete/:id",deleteCustomerById);
 
 
 
