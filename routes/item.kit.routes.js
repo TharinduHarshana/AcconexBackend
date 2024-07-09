@@ -14,7 +14,7 @@ itemKitRouter.get("/all",authMiddleware, roleCheck(["admin","inventory manager"]
 
 
 //  Route to delete an item kit by ID
-itemKitRouter.delete("/delete/:_id",authMiddleware,roleCheck(["admin"]),deleteKitById);
+itemKitRouter.delete("/delete/:_id",deleteKitById);
 //  Route to get an item kit by ID
  itemKitRouter.get("/:id",getItemKitById); 
 //  Route to update an item kit by ID
