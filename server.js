@@ -20,20 +20,6 @@ const SuspendRouter = require('./routes/suspend_sale.routes');
 const webitemRouter = require('./routes/web.inventory.routes');
 const webuserRouter = require('./routes/web.user.routes');
 
-
-
-//import routes
-const useRouter = require('./routes/user.routes');
-const customerRouter = require('./routes/cutomer.routes');
-const salesRouter = require('./routes/daily_sales.routes');
-const SuspendRouter = require("./routes/suspend_sale.routes");
-
-
-//const useRouter = require('./routes/user.routes')
-const supplierRouter = require('./routes/supplier.routes')
-const webitemRouter = require('./routes/web.inventory.routes')
-const itemrouter = require('./routes/inventory.routes')
-
 const PORT = process.env.PORT || 8000
 const MONGO_URI = process.env.MONGO_URI;
 
