@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const useRouter = require('./routes/user.routes');
 const customerRouter = require('./routes/cutomer.routes');
 const salesRouter = require('./routes/daily_sales.routes');
+const SuspendRouter = require("./routes/suspend_sale.routes");
 
 
 //const useRouter = require('./routes/user.routes')
@@ -43,6 +44,7 @@ connection.once("open", () => {
  app.use("/user",useRouter);
  app.use("/customer", customerRouter);
  app.use("/dailysales", salesRouter);
+ app.use("/suspendsale",SuspendRouter);
  
 
 app.use("/supplier",supplierRouter)
