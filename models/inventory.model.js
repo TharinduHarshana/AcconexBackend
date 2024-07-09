@@ -11,7 +11,7 @@ const inventorySchema = new Schema({
     sellingPrice: {type: Number, required: true},
     fixedPrice: {type: Number,},
     itemSerial: {type: String},
-    supplierID: {type:Number},
+    supplierID: {type:String},
     warranty:{type:String},
     category: {type:String, require:true},
     imageLink: {type:String},
