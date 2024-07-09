@@ -71,14 +71,8 @@ connection.once("open", () => {
 
 app.use("/supplier",supplierRouter)
 app.use("/user",useRouter);
-<<<<<<< Updated upstream
 //app.use("/webuser",webuserRouter);
-//app.use("/customer", customerRouter);
-=======
-// app.use("/webuser",webuserRouter);
-app.use("/customer", customerRouter);
->>>>>>> Stashed changes
-// app.use("/suspend_sale",suspendRouter);
+
 app.use("/supplier",supplierRouter)
 app.use("/webitem",webitemRouter);
 app.use("/dailysales", salesRouter);
