@@ -16,6 +16,9 @@ const salesRouter = require("./routes/daily_sales.routes");
 const categoryRouter = require('./routes/category.routes');
 const webCartRouter = require('./routes/web.Cart.routes');
 const webPaymentRouter = require('./routes/web.Payment.rotes');
+const SuspendRouter = require('./routes/suspend_sale.routes');
+const webitemRouter = require('./routes/web.inventory.routes');
+
 
 
 const PORT = process.env.PORT || 8000;
