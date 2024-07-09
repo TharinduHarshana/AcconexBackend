@@ -183,8 +183,22 @@ const getMonthlyTotalSales = async (req, res) => {
         },
         {
           $sort: { "_id": 1 }
+        },
+        {
+          $project: {
+            _id: 0,
+            monthYear: "$_id",
+            totalAmount: 1,
+            totalProfit: 1,
+            totalLoss: 1
+          }
         }
       ]);
+  
+      // Log the monthly sales data
+      monthlySales.forEach(sale => {
+        console.log(`Month-Year: ${sale.monthYear}, Total Amount: ${sale.totalAmount}, Total Profit: ${sale.totalProfit}, Total Loss: ${sale.totalLoss}`);
+      });
   
       res.status(200).json({ success: true, data: monthlySales });
     } catch (error) {
