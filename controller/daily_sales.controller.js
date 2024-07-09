@@ -58,6 +58,8 @@ const getDailysalesbyDate = async function(req, res) {
         const startOfDay = `${dateParam} 00:00:00`;
         const endOfDay = `${dateParam} 23:59:59`;
         
+        console.log('Start of Day:', startOfDay);
+        console.log('End of Day:', endOfDay);
 
         // Find all records where the datetime falls within the specified date range
         const alldailysalesdate = await Dailysales.find({
