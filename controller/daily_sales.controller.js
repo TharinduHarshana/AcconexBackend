@@ -133,7 +133,7 @@ const getMonthlyTotalSales = async (req, res) => {
       res.status(500).json({ success: false, message: "Server Error", error: error.message });
     }
   };
-  
+
   const getWeeklyTotalSales = async (req, res) => {
     try {
       const weeklySales = await Dailysales.aggregate([
@@ -162,7 +162,58 @@ const getMonthlyTotalSales = async (req, res) => {
   };
   
   
+  const getByMonthTotalSales = async (req, res) => {
+    try {
+      const { month } = req.query; // Get the month from query parameters
+
+      const monthlySales = await Dailysales.aggregate([
+          {
+              $addFields: {
+                  // Convert datetime field to a formatted date string ("%Y-%m")
+                  monthYear: {
+                      $dateToString: { format: "%Y-%m", date: { $toDate: "$datetime" } }
+                  }
+              }
+          },
+          {
+              $match: { monthYear: month } // Filter data for the specific month
+          },
+          {
+              $group: {
+                  _id: "$monthYear", // Group by the newly formatted date string
+                  totalAmount: { $sum: "$totalamount" },
+                  totalProfit: { $sum: "$profit" },
+                  totalLoss: { $sum: "$loss" }
+              }
+          },
+          {
+              $sort: { "_id": 1 }
+          },
+          {
+              $project: {
+                  _id: 0,
+                  monthYear: "$_id",
+                  totalAmount: 1,
+                  totalProfit: 1,
+                  totalLoss: 1
+              }
+          }
+      ]);
+
+      // Log the monthly sales data
+      monthlySales.forEach(sale => {
+          console.log(`Month-Year: ${sale.monthYear}, Total Amount: ${sale.totalAmount}, Total Profit: ${sale.totalProfit}, Total Loss: ${sale.totalLoss}`);
+      });
+
+      res.status(200).json({ success: true, data: monthlySales });
+  } catch (error) {
+      console.error('Error fetching monthly total sales:', error);
+      res.status(500).json({ success: false, message: "Server Error", error: error.message });
+  }
+  };
   
   
-module.exports = { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate, getDailysalesCount,getMonthlyTotalSales,getWeeklyTotalSales };
+  
+  
+module.exports = { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate, getDailysalesCount,getMonthlyTotalSales,getWeeklyTotalSales,getByMonthTotalSales };
   

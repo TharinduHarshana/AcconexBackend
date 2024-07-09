@@ -13,7 +13,7 @@ const {
 const supplierRouter = require("express").Router();
 
 //create supplier
-supplierRouter.post("/add",authMiddleware,roleCheck(['admin','inventory manager']), addSupplier);
+supplierRouter.post("/add",addSupplier);
 
 //Get suppliers
 supplierRouter.get("/get",getSuppliers);
