@@ -95,5 +95,72 @@ const deleteDailysalesById = async function (req, res) {
     
 }
 
+//daily sales count 
+const getDailysalesCount = async function(req, res) {
+    try {
+        const count = await Dailysales.countDocuments();
+        res.status(200).json({ success: true, data: count });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+};
 
-module.exports= { addDailysales,getAllDailysales,deleteDailysalesById,getDailysalesbyDate};
+
+const getMonthlyTotalSales = async (req, res) => {
+    try {
+      const monthlySales = await Dailysales.aggregate([
+        {
+          $addFields: {
+            date: { $dateToString: { format: "%Y-%m-%d", date: { $toDate: "$datetime" } } }
+          }
+        },
+        {
+          $group: {
+            _id: { $substrCP: ["$date", 0, 7] }, // Group by year-month
+            totalAmount: { $sum: "$totalamount" },
+            totalProfit: { $sum: "$profit" },
+            totalLoss: { $sum: "$loss" }
+          }
+        },
+        {
+          $sort: { "_id": 1 }
+        }
+      ]);
+      res.status(200).json({ success: true, data: monthlySales });
+    } catch (error) {
+      console.error('Error fetching monthly total sales:', error);
+      res.status(500).json({ success: false, message: "Server Error", error: error.message });
+    }
+  };
+  
+  const getWeeklyTotalSales = async (req, res) => {
+    try {
+      const weeklySales = await Dailysales.aggregate([
+        {
+          $addFields: {
+            date: { $dateToString: { format: "%Y-%m-%d", date: { $toDate: "$datetime" } } }
+          }
+        },
+        {
+          $group: {
+            _id: { $week: { $toDate: "$datetime" } }, // Group by week of the year
+            totalAmount: { $sum: "$totalamount" },
+            totalProfit: { $sum: "$profit" },
+            totalLoss: { $sum: "$loss" }
+          }
+        },
+        {
+          $sort: { "_id": 1 }
+        }
+      ]);
+      res.status(200).json({ success: true, data: weeklySales });
+    } catch (error) {
+      console.error('Error fetching weekly total sales:', error);
+      res.status(500).json({ success: false, message: "Server Error", error: error.message });
+    }
+  };
+  
+  
+module.exports = { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate, getDailysalesCount,getMonthlyTotalSales, getWeeklyTotalSales };
+  

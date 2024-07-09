@@ -3,54 +3,7 @@ const mongoose = require("mongoose");
 const ItemKitModel = require("../models/item.kit.model");
 const InventoryModel = require("../models/inventory.model");
 
-//create the item kit
-// async function createItemKit(req, res) {
-//   // Destructure the request body
-//   const { itemKitId, itemKitName, itemDescription, price, kitQuantity, items } =
-//     req.body;
 
-//   // Validate the request body
-//   if (
-//     !itemKitId ||
-//     !itemKitName ||
-//     !itemDescription ||
-//     !price ||
-//     !kitQuantity ||
-//     !items ||
-//     items.length === 0
-//   ) {
-//     return res
-//       .status(400)
-//       .json({ success: false, error: "Missing required fields" });
-//   }
-
-//   try {
-
-//     // Create a new item kit
-//     const newItemKit = new ItemKitModel({
-//       itemKitId,
-//       itemKitName,
-//       itemDescription,
-//       price,
-//       kitQuantity,
-//       items: items.map((item) => ({
-//         productID: item.productID,
-//         itemQuantity: item.quantity,
-//       })),
-//     });
-
-//     // Save the item kit to the database
-//     const savedItemKit = await newItemKit.save();
-
-//     res.status(201).json({ success: true, data: savedItemKit });
-//   } catch (error) {
-//     console.error("Error saving item kit:", error);
-
-//     res.status(500).json({ success: false, error: error.message });
-//   }
-// }
-
-// Assuming the request body contains the correct item quantities as part of the 'items' array
 async function createItemKit(req, res) {
   const { itemKitId, itemKitName, itemDescription, price, kitQuantity, items } =
     req.body;
@@ -215,67 +168,18 @@ const updateKitById = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-// const getItemKitById = async (req, res) => {
-//   try {
-//     const kit = await ItemKitModel.findById(req.params.id).populate('items.productID');
 
-//     if (!kit) {
-//       return res.status(404).json({ success: false, message: 'Item kit not found' });
-//     }
+//get item kit count
+const getItemKitCount = async function getItemKitCount(req, res) {
+  try {
+    const count = await ItemKitModel.countDocuments();
+    res.status(200).json({ success: true, data: count });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
 
-//     console.log('Fetched Item Kit Data:', kit);
-
-//     // Check for items with missing productID
-//     const missingProductIDItems = kit.items.filter(item => !item.productID);
-//     if (missingProductIDItems.length > 0) {
-//       console.error('Missing productID for items:', missingProductIDItems);
-//     }
-
-//     res.status(200).json({ success: true, data: kit });
-//   } catch (error) {
-//     console.error('Error fetching item kit data:', error);
-//     res.status(500).json({ success: false, message: 'Server Error' });
-//   }
-// };
-
-
-// // Function to update kit
-// const updateKitById = async (req, res) => {
-//   console.log("updateKitById called with ID:", req.params.id);
-//   try {
-//     const _id = req.params.id; // Extracting item kit ID from the URL path
-//     const updateData = req.body;
-
-//     // Check if the provided ID is a valid ObjectId
-//     if (!mongoose.Types.ObjectId.isValid(_id)) {
-//       return res
-//         .status(400)
-//         .json({ success: false, message: "Invalid item kit ID" });
-//     }
-
-//     // Find the item kit by ID and update it
-//     const updatedItemKit = await ItemKitModel.findByIdAndUpdate(
-//       _id,
-//       updateData,
-//       {
-//         new: true,
-//       }
-//     ).populate('items.productID');
-
-//     if (!updatedItemKit) {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "Item Kit not found" });
-//     }
-
-//     console.log("Updated item kit:", updatedItemKit); // Log the updated data
-
-//     res.status(200).json({ success: true, data: updatedItemKit });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ success: false, message: "Server Error" });
-//   }
-// };
 
 module.exports = {
   createItemKit,
@@ -284,4 +188,5 @@ module.exports = {
   deleteKitById,
   getItemKitById,
   updateKitById,
+  getItemKitCount
 };
