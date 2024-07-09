@@ -162,5 +162,7 @@ const getMonthlyTotalSales = async (req, res) => {
   };
   
   
-module.exports = { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate, getDailysalesCount,getMonthlyTotalSales, getWeeklyTotalSales };
+  
+  
+module.exports = { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate, getDailysalesCount,getMonthlyTotalSales,getWeeklyTotalSales };
   
