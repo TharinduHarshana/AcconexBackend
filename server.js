@@ -13,16 +13,13 @@ const itemKitRouter = require("./routes/item.kit.routes");
 const itemrouter = require("./routes/inventory.routes");
 const customerRouter = require("./routes/cutomer.routes");
 const salesRouter = require("./routes/daily_sales.routes");
-const webitemRouter = require("./routes/web.inventory.routes");
-const SuspendRouter = require("./routes/suspend_sale.routes");
-const categoryRouter = require('./routes/category.routes')
-const webCartRouter = require('./routes/web.Cart.routes')
-const webuserRouter = require('./routes/web.user.routes')
+const categoryRouter = require('./routes/category.routes');
+const webCartRouter = require('./routes/web.Cart.routes');
+const webPaymentRouter = require('./routes/web.Payment.rotes');
+
 
 const PORT = process.env.PORT || 8000;
-
 const MONGO_URI = process.env.MONGO_URI;
-
 
 
 app.use(bodyParser.json());
@@ -81,6 +78,7 @@ app.use("/itemkit",itemKitRouter)
 app.use("/item",itemrouter);
 app.use('/category',categoryRouter);
 app.use('/cart',webCartRouter);
+app.use('/payment',webPaymentRouter);
 
 
 // Export the Express application

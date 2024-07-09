@@ -59,5 +59,8 @@ const getSearchResults = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 };
+
+
+
 // Exporting APIs
 module.exports = {getAllItems, getCategoryWiseItems , getSearchResults};

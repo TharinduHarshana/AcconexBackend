@@ -107,5 +107,16 @@ const deleteCustomerById = async function (req, res) {
     }
 }
 
+//get registered customers count
+const getCustomerCount = async function (req, res) {
+    try {
+        const customers = await Customer.find();
+        res.status(200).json({ success: true, data: customers.length });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+}
+
 // Exporting the controller functions
-module.exports = { addCustomer, getAllCustomers, getCustomerById, updateCustomerById, deleteCustomerById ,getCustomerByName};
+module.exports = { addCustomer, getAllCustomers, getCustomerById, updateCustomerById, deleteCustomerById ,getCustomerByName,getCustomerCount};

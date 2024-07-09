@@ -122,23 +122,23 @@ const deleteItemById = async (req, res) => {
     }
 }
 
+//get all items counr
+const getItemCount = async (req, res) => {
+    try {
+        const items = await Inventory.find().countDocuments();
 
-// async function getItemSellingPrice(req, res) {
-//     try {
-//         const { productID } = req.params;
-//         const inventoryItem = await Inventory.findOne({ productID });
-//         if (!inventoryItem) {
-//             return res.status(404).json({ msg: "Item not found" });
-//         }
-//         res.status(200).json({ sellingPrice: inventoryItem.sellingPrice });
-//     } catch (error) {
-//         console.error("Error fetching item selling price:", error);
-//         res.status(500).json({ msg: "Server error" });
-//     }
-// }
+        if (!items || items.length === 0)
+            return res.status(404).json({ success: false, message: 'No recipes found' });
+
+        res.status(200).json({ success: true, data: items });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+}
 
 
 
 
 // Exporting APIs
-module.exports = {addNewItem , getAllItems , getItemByID , updateItemByID , deleteItemById};
+module.exports = {addNewItem , getAllItems , getItemByID , updateItemByID , deleteItemById, getItemCount};

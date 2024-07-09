@@ -91,5 +91,21 @@ const deleteCategoryByID = async (req, res) => {
     }
 }
 
+//get all categories count 
+const getAllCategoriesCount = async (req, res) => {
+    try {
+        const categories = await Category.find().count();
+
+        if (!categories || categories.length === 0) {
+            return res.status(404).json({ success: false, message: 'No categories found' });
+        }
+
+        res.status(200).json({ success: true, data: categories });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server Error', error: err.message });
+    }
+}
+
 // Export the category controller methods
-module.exports = { addNewCategory, getAllCategories, getCategoryByID, updateCategoryByID, deleteCategoryByID };
+module.exports = { addNewCategory, getAllCategories, getCategoryByID, updateCategoryByID, deleteCategoryByID, getAllCategoriesCount};
