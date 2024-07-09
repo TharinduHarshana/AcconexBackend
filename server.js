@@ -18,6 +18,7 @@ const webCartRouter = require('./routes/web.Cart.routes');
 const webPaymentRouter = require('./routes/web.Payment.rotes');
 const SuspendRouter = require('./routes/suspend_sale.routes');
 const webitemRouter = require('./routes/web.inventory.routes');
+const webuserRouter = require('./routes/web.user.routes');
 
 
 
@@ -71,8 +72,8 @@ connection.once("open", () => {
 
 app.use("/supplier",supplierRouter)
 app.use("/user",useRouter);
-//app.use("/webuser",webuserRouter);
-//app.use("/customer", customerRouter);
+app.use("/webuser",webuserRouter);
+app.use("/customer", customerRouter);
 // app.use("/suspend_sale",suspendRouter);
 app.use("/supplier",supplierRouter)
 app.use("/webitem",webitemRouter);
