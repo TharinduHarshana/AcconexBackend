@@ -1,15 +1,17 @@
 const express = require("express");
 const salesrouter = express.Router();
-const { addDailysales , getAllDailysales,deleteDailysalesById} = require("../controller/daily_sales.controller");
+const { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate } = require("../controller/daily_sales.controller");
 
 // Add a new sale
 salesrouter.post('/add', addDailysales);
 
-// Get all sale
+// Get all sales
 salesrouter.get("/", getAllDailysales);
 
-//delete sales
+// Get sales by date
+salesrouter.get("/get/:date", getDailysalesbyDate);
+
+// Delete sale by sales id
 salesrouter.delete("/delete/:id", deleteDailysalesById);
 
-// Exporting the router
 module.exports = salesrouter;
