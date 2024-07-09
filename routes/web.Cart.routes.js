@@ -10,7 +10,8 @@ const { addItemToCart,
      deleteAllCartItems,
      getCodOrders
       } = require('../controller/web.Cart.controller');
-
+const authMiddleware = require("../Middlewares/auth.middleware");
+const roleCheck = require("../Middlewares/role.check.middleware");
 
 // Add item to cart
 router.post('/add',verifyToken, addItemToCart);
@@ -34,6 +35,6 @@ router.post('/submit', verifyToken, submitOrder);
 router.delete('/deleteAll', verifyToken, deleteAllCartItems);
 
 //get all cash on delivery orders
-router.get('/codOrders', getCodOrders);
+router.get('/codOrders',authMiddleware,roleCheck(["admin","web admin"]), getCodOrders);
 
 module.exports = router;
