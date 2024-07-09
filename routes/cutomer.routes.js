@@ -10,7 +10,7 @@ customerRouter.post('/add', addCustomer);
 customerRouter.get("/count", getCustomerCount);
 
 // Get all customers
-customerRouter.get("/", authMiddleware,roleCheck(['admin','cashier']),getAllCustomers);
+customerRouter.get("/",getAllCustomers);
 
 
 // Update a customer by ID
