@@ -50,6 +50,35 @@ const getAllDailysales = async function ( req,res) {
         res.status(500).json({ success: false, message: "Server Error" });
     }
 }
+const getDailysalesbyDate = async function(req, res) {
+    try {
+        const dateParam = req.params.date; // Example: "2024-07-08"
+        
+        // Define the start and end of the day as strings
+        const startOfDay = `${dateParam} 00:00:00`;
+        const endOfDay = `${dateParam} 23:59:59`;
+        
+        console.log('Start of Day:', startOfDay);
+        console.log('End of Day:', endOfDay);
+
+        // Find all records where the datetime falls within the specified date range
+        const alldailysalesdate = await Dailysales.find({
+            datetime: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        });
+
+        if (alldailysalesdate.length === 0) {
+            return res.status(404).json({ success: false, message: "Daily sales not found" });
+        }
+
+        res.status(200).json({ success: true, data: alldailysalesdate });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+};
 
 
 // Delete sale by sales id
@@ -63,7 +92,8 @@ const deleteDailysalesById = async function (req, res) {
         console.error(error);
         res.status(500).json({ success: false, message: "Server Error" });
     }
+    
 }
 
 
-module.exports= { addDailysales,getAllDailysales,deleteDailysalesById};
+module.exports= { addDailysales,getAllDailysales,deleteDailysalesById,getDailysalesbyDate};
