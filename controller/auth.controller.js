@@ -5,23 +5,23 @@ const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
   try {
-    // Destructuring username and password from request body
+    
     const { userName, password } = req.body;
 
     if (!userName || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    // Finding user by username
+   
     const user = await UserModel.findOne({ userName });
-    // If user doesn't exist, return error
+    
     if (!user) {
       return res
         .status(401)
         .json({ message: "Incorrect password or username" });
     }
-    // Comparing hashed password
+    
     const auth = await bcrypt.compare(password, user.password);
-    // If password doesn't match, return error
+
     if (!auth) {
       return res
         .status(401)

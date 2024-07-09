@@ -1,6 +1,7 @@
 const SupplierModel=require("../models/supplier.model");
 const mongoose=require("mongoose");
 
+//create supplier
 async function addSupplier(req,res){
     try {
         const{supplierId,firstName,companyName,phoneNumber,email}=req.body;
@@ -18,6 +19,7 @@ async function addSupplier(req,res){
         
     }
 }
+//get suppliers
 const getSuppliers=async function getSupplier(req,res){
     try {
         const suppliers = await SupplierModel.find();
@@ -28,6 +30,7 @@ const getSuppliers=async function getSupplier(req,res){
       }
 
 }
+//get supplier data by id
 const getSupplierById=async function getSupplierId(req,res){
     try {
         const supplier=await SupplierModel.findById({_id:req.params.id});
@@ -39,7 +42,7 @@ const getSupplierById=async function getSupplierId(req,res){
   
   }
 
-  //
+  //check supplier id
   async function checkSupplierId(req,res){
     try {
       const supplierExist = await SupplierModel.findOne({ supplierId: req.params.supplierId });
@@ -54,7 +57,7 @@ const getSupplierById=async function getSupplierId(req,res){
    }
   }
 
-
+//update supplier
   const updateSupplierById = async function updateSupplier(req, res) {
     try {
       const _id = req.params.id; // Extracting user ID from the URL path
@@ -85,6 +88,7 @@ const getSupplierById=async function getSupplierId(req,res){
       res.status(500).json({ success: false, message: "Server Error" });
     }
   };
+  //delete suppliers
   const deleteSupplierById = async (req, res) => {
     try {
       const deleteSupplierById = await SupplierModel.findByIdAndDelete(req.params._id);
