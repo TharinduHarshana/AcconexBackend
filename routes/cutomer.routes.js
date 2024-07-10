@@ -26,7 +26,7 @@ customerRouter.get("/getbyName/:name",getCustomerByName);
 
 
 // Delete a customer by ID
-customerRouter.delete("/delete/:id",deleteCustomerById);
+customerRouter.delete("/delete/:id",authMiddleware, roleCheck(["admin"]),deleteCustomerById);
 
 
 
