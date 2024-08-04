@@ -7,7 +7,8 @@ const supSchema=new Schema({
     firstName:{type:String,required:true},
     companyName:{type:String,required:true},
     phoneNumber:{type:String,required:true},
-    email:{type:String}
+    email:{type:String},
+    items: { type: [String], default: [] }
 })
 
 

@@ -4,12 +4,12 @@ const mongoose=require("mongoose");
 //create supplier
 async function addSupplier(req,res){
     try {
-        const{supplierId,firstName,companyName,phoneNumber,email}=req.body;
-        if(!supplierId|| !firstName|| !companyName|| !phoneNumber){
+        const{supplierId,firstName,companyName,phoneNumber,email,items}=req.body;
+        if(!supplierId|| !firstName|| !companyName|| !phoneNumber|| !items){
             return res.status(400).json({ msg: "All fields are required" });
         }
         const newSupplier=await SupplierModel.create({
-           supplierId,firstName,companyName,phoneNumber,email
+           supplierId,firstName,companyName,phoneNumber,email,items
         });
         console.log("New supplier added",newSupplier);
         res.status(200).json({success:true,data:newSupplier})

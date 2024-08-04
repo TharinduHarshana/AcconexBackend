@@ -39,6 +39,8 @@ async function addDailysales(req, res) {
 }
 
 
+
+
 // Get all sales
 // http://localhost:8000/dailysales/
 const getAllDailysales = async function ( req,res) {
@@ -211,9 +213,68 @@ const getMonthlyTotalSales = async (req, res) => {
       res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
   };
+
+  const generateSalesReport = async (req, res) => {
+    const { date } = req.params; // Get the date from params
+  
+    try {
+        const startDate = new Date(`${date}T00:00:00Z`);
+        const endDate = new Date(`${date}T23:59:59Z`);
+  
+        console.log(`Generating sales report for date: ${date}`);
+        console.log('Start datetime string:', startDate.toISOString());
+        console.log('End datetime string:', endDate.toISOString());
+  
+        const salesReport = await Dailysales.aggregate([
+            {
+                $match: {
+                    datetime: {
+                        $gte: startDate,
+                        $lt: endDate
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        year: { $year: "$datetime" },
+                        month: { $month: "$datetime" },
+                        day: { $dayOfMonth: "$datetime" },
+                        cashier: "$cashirename",
+                        customer: "$customername"
+                    },
+                    totalSales: { $sum: "$totalamount" },
+                    itemCount: { $sum: "$itemcount" },
+                    items: { $push: "$Item_Names" }
+                }
+            }
+        ]);
+  
+        if (salesReport.length === 0) {
+            console.log('No sales data found for the specified date.');
+            return res.status(404).json({ message: 'No sales data found for the specified date.' });
+        }
+  
+        console.log('Sales report data:', salesReport);
+        res.status(200).json(salesReport);
+    } catch (error) {
+        console.error('Error fetching sales report:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
+};
+
   
   
   
+ 
   
-module.exports = { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate, getDailysalesCount,getMonthlyTotalSales,getWeeklyTotalSales,getByMonthTotalSales };
+
+
+
+
+
+
+  
+  
+module.exports = { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate, getDailysalesCount,getMonthlyTotalSales,getWeeklyTotalSales,getByMonthTotalSales, generateSalesReport };
   

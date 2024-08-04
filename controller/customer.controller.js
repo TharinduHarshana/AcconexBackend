@@ -4,25 +4,22 @@ const Customer = require('../models/customer.model');
 // http://localhost:8000/customer/add
 async function addCustomer(req, res) {
     try {
-        // Extracting data from request body
         const { cusid, name, address, mobile } = req.body;
 
-          // Check if cusid already exists
-          const existingCustomer = await Customer.findOne({ cusid });
-          if (existingCustomer) {
-              return res.status(400).json({ success: false, message: "Customer with this ID already exists" });
-          }
-          
-        // Creating a new customer instance
-        const newCustomer = new Customer({
-            cusid,
-            name,
-            address,
-            mobile,
-           
-        });
+        // Check if cusid already exists
+        const existingCustomerById = await Customer.findOne({ cusid });
+        if (existingCustomerById) {
+            return res.status(400).json({ success: false, message: "Customer with this ID already exists" });
+        }
 
-        
+        // Check if mobile number already exists
+        const existingCustomerByMobile = await Customer.findOne({ mobile });
+        if (existingCustomerByMobile) {
+            return res.status(400).json({ success: false, message: "Customer with this mobile number already exists" });
+        }
+
+        // Creating a new customer instance
+        const newCustomer = new Customer({ cusid, name, address, mobile });
 
         // Saving the new customer to the database
         const savedCustomer = await newCustomer.save();
@@ -30,11 +27,11 @@ async function addCustomer(req, res) {
         // Sending success response
         res.status(201).json({ success: true, message: "New customer added successfully", data: savedCustomer });
     } catch (error) {
-        // Sending error response if there's any error
         console.error(error);
         res.status(500).json({ success: false, message: "Failed to add new customer", error: error.message });
     }
 }
+
 
 // Get all customers
 // http://localhost:8000/customer/
@@ -64,7 +61,6 @@ const getCustomerById = async function (req, res) {
     }
 }
 
-
 // Get a single customer by customer name
 // http://localhost:8000/customer/getbyName/:name
 const getCustomerByName = async function (req, res) {
@@ -86,8 +82,24 @@ const getCustomerByName = async function (req, res) {
 const updateCustomerById = async function (req, res) {
     try {
         const customerId = req.params.id;
-        const updateData = req.body; // Assuming req.body contains fields to be updated
+        const updateData = req.body;
+        const { mobile } = req.body;
+
+        // Check if the new mobile number exists for a different customer
+        if (mobile) {
+            const existingCustomerByMobile = await Customer.findOne({ mobile });
+            if (existingCustomerByMobile && existingCustomerByMobile.cusid !== customerId) {
+                return res.status(400).json({ success: false, message: "Customer with this mobile number already exists" });
+            }
+            updateData.mobile = mobile;
+        }
+
         const updatedCustomer = await Customer.findOneAndUpdate({ cusid: customerId }, updateData, { new: true });
+
+        if (!updatedCustomer) {
+            return res.status(404).json({ success: false, message: "Customer not found" });
+        }
+
         res.status(200).json({ success: true, message: "Data updated successfully", data: updatedCustomer });
     } catch (error) {
         console.error(error);
@@ -108,7 +120,7 @@ const deleteCustomerById = async function (req, res) {
     }
 }
 
-//get registered customers count
+// Get registered customers count
 const getCustomerCount = async function (req, res) {
     try {
         const customers = await Customer.find();
@@ -120,4 +132,12 @@ const getCustomerCount = async function (req, res) {
 }
 
 // Exporting the controller functions
-module.exports = { addCustomer, getAllCustomers, getCustomerById, updateCustomerById, deleteCustomerById ,getCustomerByName,getCustomerCount};
+module.exports = {
+    addCustomer,
+    getAllCustomers,
+    getCustomerById,
+    updateCustomerById,
+    deleteCustomerById,
+    getCustomerByName,
+    getCustomerCount
+};
