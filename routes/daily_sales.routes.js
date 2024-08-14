@@ -30,7 +30,7 @@ salesrouter.delete("/delete/:id", deleteDailysalesById);
 salesrouter.get("/count", getDailysalesCount);
 
 // Generate sales report
-salesrouter.get('/report/:date', generateSalesReport);
+salesrouter.get('/report', generateSalesReport);
 
 
 
