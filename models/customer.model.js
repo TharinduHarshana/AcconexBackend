@@ -19,7 +19,8 @@ const CustomerSchema = new Schema({
     },
     mobile: {
         type: String,
-        required: true // Make mobile a required field
+        required: true,
+        unique: true // Ensure mobile is unique
     }
 });
 

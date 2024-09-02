@@ -1,28 +1,29 @@
 const SupplierModel=require("../models/supplier.model");
 const mongoose=require("mongoose");
 
+
 //create supplier
 async function addSupplier(req,res){
-    try {
-        const{supplierId,firstName,companyName,phoneNumber,email}=req.body;
-        if(!supplierId|| !firstName|| !companyName|| !phoneNumber){
-            return res.status(400).json({ msg: "All fields are required" });
-        }
-        const newSupplier=await SupplierModel.create({
-           supplierId,firstName,companyName,phoneNumber,email
-        });
-        console.log("New supplier added",newSupplier);
-        res.status(200).json({success:true,data:newSupplier})
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({success:false,message:"Server Error"})
-        
-    }
+  try {
+      const{supplierId,firstName,companyName,phoneNumber,email}=req.body;
+      if(!supplierId|| !firstName|| !companyName|| !phoneNumber){
+          return res.status(400).json({ msg: "All fields are required" });
+      }
+      const newSupplier=await SupplierModel.create({
+         supplierId,firstName,companyName,phoneNumber,email
+      });
+      console.log("New supplier added",newSupplier);
+      res.status(200).json({success:true,data:newSupplier})
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({success:false,message:"Server Error"})
+      
+  }
 }
 //get suppliers
 const getSuppliers=async function getSupplier(req,res){
     try {
-        const suppliers = await SupplierModel.find();
+        const suppliers = await SupplierModel.find().populate('items');
         res.status(200).json({ success: true, data: suppliers });
       } catch (err) {
         console.log(err);
