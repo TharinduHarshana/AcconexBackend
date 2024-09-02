@@ -1,6 +1,6 @@
 const express = require("express");
 const salesrouter = express.Router();
-const { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate,getDailysalesCount,getMonthlyTotalSales,getWeeklyTotalSales, getByMonthTotalSales, generateSalesReport} = require("../controller/daily_sales.controller");
+const { addDailysales, getAllDailysales, deleteDailysalesById, getDailysalesbyDate,getDailysalesCount,getMonthlyTotalSales,getWeeklyTotalSales, getByMonthTotalSales, generateSalesReport, generateMonthReport} = require("../controller/daily_sales.controller");
 
 
 
@@ -30,7 +30,10 @@ salesrouter.delete("/delete/:id", deleteDailysalesById);
 salesrouter.get("/count", getDailysalesCount);
 
 // Generate sales report
-salesrouter.get('/report/:date', generateSalesReport);
+salesrouter.get('/report', generateSalesReport);
+
+//Generate month report
+salesrouter.get("/report/month",generateMonthReport);
 
 
 

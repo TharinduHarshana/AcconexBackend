@@ -85,6 +85,10 @@ app.use("/item",itemrouter);
 app.use('/category',categoryRouter);
 app.use('/cart',webCartRouter);
 app.use('/payment',webPaymentRouter);
+app.get("/", (req, res) => {
+  res.send("Welcome to the Express server!");
+});
+
 
 
 // Export the Express application
