@@ -32,13 +32,15 @@ app.use(cookieParser());
 // CORS configuration
 const corsOptions = {
   // Allow requests from this origin
-  origin: "http://localhost:3000",
+  origin: "https://acconexfrontend-client.vercel.app/",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   // This allows the server to receive and send cookies
   credentials: true,
 };
 
 // Enable CORS with options
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)
+);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
