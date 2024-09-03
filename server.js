@@ -31,7 +31,7 @@ const corsOptions = {
   origin: [
     "https://acconexfrontend-client.vercel.app", // Correct origin
     "https://acconexfrontend.vercel.app",
-    "http://localhost:3000" // Additional origin that needs to be allowed
+     // Additional origin that needs to be allowed
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
