@@ -30,7 +30,8 @@ app.use(cookieParser());
 const corsOptions = {
   origin: [
     "https://acconexfrontend-client.vercel.app", // Correct origin
-    "https://acconexfrontend.vercel.app" // Additional origin that needs to be allowed
+    "https://acconexfrontend.vercel.app",
+    "http://localhost:3000" // Additional origin that needs to be allowed
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
