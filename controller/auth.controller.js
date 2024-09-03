@@ -58,22 +58,22 @@ const login = async (req, res) => {
   }
 };
 
-// const logout = (req, res) => {
-//   // Clearing the token cookie
-//   res.clearCookie("token");
-//   // Sending logout success response
-//   return res.status(200).json({ message: "Logged out successfully" });
-// };
 const logout = (req, res) => {
   // Clearing the token cookie
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-  });
+  res.clearCookie("token");
   // Sending logout success response
   return res.status(200).json({ message: "Logged out successfully" });
 };
+// const logout = (req, res) => {
+//   // Clearing the token cookie
+//   res.clearCookie("token", {
+//     httpOnly: true,
+//     secure: true,
+//     sameSite: "none",
+//   });
+//   // Sending logout success response
+//   return res.status(200).json({ message: "Logged out successfully" });
+// };
 
 
 const switchProfile = async (req, res) => {
