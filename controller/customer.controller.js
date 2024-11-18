@@ -12,11 +12,6 @@ async function addCustomer(req, res) {
             return res.status(400).json({ success: false, message: "Customer with this ID already exists" });
         }
 
-        // Check if mobile number already exists
-        const existingCustomerByMobile = await Customer.findOne({ mobile });
-        if (existingCustomerByMobile) {
-            return res.status(400).json({ success: false, message: "Customer with this mobile number already exists" });
-        }
 
         // Creating a new customer instance
         const newCustomer = new Customer({ cusid, name, address, mobile });
